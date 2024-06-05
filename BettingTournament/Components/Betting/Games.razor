@@ -1,0 +1,47 @@
+﻿@using BettingTournament.Core
+@using BettingTournament.Core.Services
+@inject RoundService RoundService
+@inject IDialogService DialogService
+
+<MudContainer>
+    <MudDataGrid Items="@_games">
+        <Columns>
+            <PropertyColumn Property="x => x.HomeTeam"></PropertyColumn>
+            <PropertyColumn Property="x => x.AwayTeam"></PropertyColumn>
+            <TemplateColumn>
+                <CellTemplate>
+                    <MudButton @onclick="() => BetClicked(context.Item)">Bet</MudButton>
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+    </MudDataGrid>
+</MudContainer>
+
+@code {
+    private IEnumerable<Game> _games = [];
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Refresh();
+    }
+
+    private void BetClicked(Game game)
+    {
+        RoundService.Remove(game.Id);
+        Refresh();
+    }
+
+    private async Task AddGameClicked()
+    {
+        var dialog = DialogService.Show<NewGameDialog>();
+        await dialog.Result;
+        Refresh();
+    }
+
+    private void Refresh()
+    {
+        _games = RoundService.GetGames();
+    }
+}

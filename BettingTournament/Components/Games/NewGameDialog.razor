@@ -1,0 +1,28 @@
+﻿@using BettingTournament.Core.Services
+@inject RoundService RoundService
+
+<MudDialog>
+    <DialogContent>
+        <NewGame @bind-HomeTeam="@_homeTeam" @bind-AwayTeam="@_awayTeam" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton OnClick="Submit">Add</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    private string _homeTeam = string.Empty;
+    private string _awayTeam = string.Empty;
+
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; } = default!;
+
+    private void Submit()
+    {
+        RoundService.AddGame(_homeTeam, _awayTeam);
+
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+}
