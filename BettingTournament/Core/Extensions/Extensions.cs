@@ -2,7 +2,7 @@
 {
     public static class Extensions
     {
-        public static TimeSpan ToTimeSpan(this DateTime dt)
-            => new TimeSpan(dt.Hour, dt.Minute, dt.Second);
+        public static TimeSpan FromUTCToPolishTimeSpan(this DateTime dt)
+            => new TimeSpan(dt.Hour + 2, dt.Minute, dt.Second); // polish timezone = UTC + 2
     }
 }

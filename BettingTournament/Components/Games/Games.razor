@@ -9,7 +9,7 @@
         <Columns>
             <PropertyColumn Property="x => x.HomeTeam" />
             <PropertyColumn Property="x => x.AwayTeam" />
-            <PropertyColumn Property="x => x.DateTime" Format="dd.MM.yyyy HH:mm:ss" />
+            <PropertyColumn Property="x => x.PolishDateTime" Format="dd.MM.yyyy HH:mm:ss" />
             <TemplateColumn>
                 <CellTemplate>
                     <Button @onclick="() => UpdateClicked(context.Item)">Update</Button>

@@ -8,7 +8,7 @@
     </MudContainer>
     <MudContainer Class="pa-15">
         <MudDatePicker Date="@Game.DateTime" FixYear="2024" DateChanged="DateChanged" Label="Game Date" />
-        <MudTimePicker Time="@Game.DateTime.ToTimeSpan()" TimeChanged="TimeChanged" Label="Game Time" />
+        <MudTimePicker Time="@Game.DateTime.FromUTCToPolishTimeSpan()" TimeChanged="TimeChanged" Label="Game Time" />
     </MudContainer>
 </MudContainer>
 
