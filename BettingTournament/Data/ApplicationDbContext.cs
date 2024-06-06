@@ -6,6 +6,8 @@ namespace BettingTournament.Data
 {
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
     {
-        public DbSet<Game> CurrentGames { get; set; }
+        public DbSet<Game> Games { get; set; }
+
+        public DbSet<Bet> Bets { get; set; }
     }
 }

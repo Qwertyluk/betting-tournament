@@ -1,6 +1,10 @@
 ﻿@page "/betting"
+@using BettingTournament.Components.Betting
+@using Microsoft.AspNetCore.Authorization
 
-<h3>Betting</h3>
+@attribute [Authorize]
+
+<Bets />
 
 @code {
 

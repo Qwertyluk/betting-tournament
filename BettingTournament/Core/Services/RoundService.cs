@@ -1,4 +1,5 @@
 ﻿using BettingTournament.Data;
+using BettingTournament.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace BettingTournament.Core.Services
@@ -16,7 +17,15 @@ namespace BettingTournament.Core.Services
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
-                return dbContext.CurrentGames.ToList();
+                return dbContext.Games.ToList();
+            }
+        }
+
+        public IEnumerable<Bet> GetBets(ApplicationUser user)
+        {
+            using (var dbContext = _dbContextFactory.CreateDbContext())
+            {
+                return dbContext.Bets.Where(x => x.User.Id == user.Id).ToList();
             }
         }
 
@@ -30,7 +39,7 @@ namespace BettingTournament.Core.Services
 
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
-                dbContext.CurrentGames.Add(game);
+                dbContext.Games.Add(game);
                 dbContext.SaveChanges();
             }
         }
@@ -39,10 +48,10 @@ namespace BettingTournament.Core.Services
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
-                var game = dbContext.CurrentGames.Find(gameId);
+                var game = dbContext.Games.Find(gameId);
                 if (game is not null)
                 {
-                    dbContext.CurrentGames.Remove(game);
+                    dbContext.Games.Remove(game);
                     dbContext.SaveChanges();
                 }
             }

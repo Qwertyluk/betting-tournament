@@ -1,0 +1,51 @@
+﻿@using BettingTournament.Core
+@using BettingTournament.Core.Services
+@using BettingTournament.Data
+@using BettingTournament.ViewModels
+@inject RoundService RoundService
+@inject IDialogService DialogService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserService UserService
+
+@*TODO fix displaying games to bet*@
+<MudContainer>
+    <MudDataGrid Items="@_bets">
+        <Columns>
+            <PropertyColumn Property="x => x.Game.HomeTeam" />
+            <PropertyColumn Property="x => x.Game.AwayTeam" />
+            <PropertyColumn Property="x => x.HomeScore" />
+            <PropertyColumn Property="x => x.AwayScore" />
+            <TemplateColumn>
+                <CellTemplate>
+                    <MudButton @onclick="() => BetClicked(context.Item)">Bet</MudButton>
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+    </MudDataGrid>
+</MudContainer>
+
+@code {
+    private IEnumerable<Bet> _bets = [];
+    private ApplicationUser _user = default!;
+
+    protected override async void OnInitialized()
+    {
+        base.OnInitialized();
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _user = await UserService.GetUserAsync(authState.User);
+
+        Refresh();
+    }
+
+    private void BetClicked(Bet bet)
+    {
+        // TODO: display dialog
+        Refresh();
+    }
+
+    private void Refresh()
+    {
+        _bets = RoundService.GetBets(_user);
+    }
+}
