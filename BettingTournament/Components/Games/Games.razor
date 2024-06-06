@@ -10,6 +10,7 @@
             <PropertyColumn Property="x => x.AwayTeam"></PropertyColumn>
             <TemplateColumn>
                 <CellTemplate>
+                    <MudButton @onclick="() => UpdateClicked(context.Item)">Update</MudButton>
                     <MudButton @onclick="() => RemoveClicked(context.Item)">Remove</MudButton>
                 </CellTemplate>
             </TemplateColumn>
@@ -25,6 +26,18 @@
     {
         base.OnInitialized();
 
+        Refresh();
+    }
+
+    private async Task UpdateClicked(Game game)
+    {
+        var parameters = new DialogParameters<UpdateGameDialog>()
+        {
+            { x => x.Game , game},
+        };
+
+        var dialog = DialogService.Show<UpdateGameDialog>("", parameters);
+        await dialog.Result;
         Refresh();
     }
 

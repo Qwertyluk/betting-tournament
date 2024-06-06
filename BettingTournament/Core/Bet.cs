@@ -6,8 +6,15 @@ namespace BettingTournament.Core
     {
         public int Id { get; set; }
         public Game Game { get; set; }
-        public ApplicationUser User { get; set; }
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
         public int HomeScore { get; set; }
         public int AwayScore { get; set; }
+
+        public void SetUser(ApplicationUser user)
+        {
+            ApplicationUserId = user.Id;
+            ApplicationUser = user;
+        }
     }
 }

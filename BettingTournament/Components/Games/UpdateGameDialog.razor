@@ -4,22 +4,23 @@
 
 <MudDialog>
     <DialogContent>
-        <GameForm @bind-Game="Game" />
+        <GameForm @bind-Game="Game"/>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton OnClick="Submit">Add</MudButton>
+        <MudButton OnClick="Submit">Update</MudButton>
     </DialogActions>
 </MudDialog>
 @code {
-    private Game Game { get; set; } = new();
+    [Parameter]
+    public Game Game { get; set; } = default!;
 
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; } = default!;
 
     private void Submit()
     {
-        RoundService.AddGame(Game.HomeTeam, Game.AwayTeam);
+        RoundService.UpdateGame(Game.Id, Game.HomeTeam, Game.AwayTeam);
 
         MudDialog.Close(DialogResult.Ok(true));
     }

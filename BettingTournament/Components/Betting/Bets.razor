@@ -7,7 +7,6 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject UserService UserService
 
-@*TODO fix displaying games to bet*@
 <MudContainer>
     <MudDataGrid Items="@_bets">
         <Columns>
@@ -38,9 +37,14 @@
         Refresh();
     }
 
-    private void BetClicked(Bet bet)
+    private async Task BetClicked(Bet bet)
     {
-        // TODO: display dialog
+        var parameters = new DialogParameters<UpdateBetDialog>()
+        {
+            { x => x.Bet, bet },
+        };
+        var dialog = DialogService.Show<UpdateBetDialog>("", parameters);
+        await dialog.Result;
         Refresh();
     }
 

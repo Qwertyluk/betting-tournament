@@ -1,0 +1,25 @@
+﻿@using BettingTournament.Core
+<MudContainer>
+    <MudTextField @bind-Value="Game.HomeTeam" Label="Home Team" />
+    <MudTextField @bind-Value="Game.AwayTeam" Label="Away Team" />
+</MudContainer>
+
+@code {
+    [Parameter]
+    public Game Game { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<Game> GameChanged { get; set; }
+    /*
+    [Parameter]
+    public string HomeTeam { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback<string> HomeTeamChanged { get; set; }
+
+    [Parameter]
+    public string AwayTeam { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback<string> AwayTeamChanged { get; set; }*/
+}
