@@ -1,6 +1,7 @@
 ﻿@using BettingTournament.Core
-<MudContainer>
+<MudContainer Class="d-inline-flex gap-5">
     <MudTextField @bind-Value="Game.HomeTeam" Label="Home Team" />
+    <MudText Class="align-self-end">:</MudText>
     <MudTextField @bind-Value="Game.AwayTeam" Label="Away Team" />
 </MudContainer>
 
@@ -10,16 +11,4 @@
 
     [Parameter]
     public EventCallback<Game> GameChanged { get; set; }
-    /*
-    [Parameter]
-    public string HomeTeam { get; set; } = string.Empty;
-
-    [Parameter]
-    public EventCallback<string> HomeTeamChanged { get; set; }
-
-    [Parameter]
-    public string AwayTeam { get; set; } = string.Empty;
-
-    [Parameter]
-    public EventCallback<string> AwayTeamChanged { get; set; }*/
 }

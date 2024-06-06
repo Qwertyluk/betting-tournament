@@ -1,0 +1,14 @@
+﻿@using BettingTournament.Core
+<MudContainer Class="d-inline-flex gap-5">
+    <MudTextField @bind-Value="Bet.HomeScore" Label="@Bet.Game.HomeTeam" />
+    <MudText Class="align-self-end">:</MudText>
+    <MudTextField @bind-Value="Bet.AwayScore" Label="@Bet.Game.AwayTeam" />
+</MudContainer>
+
+@code {
+    [Parameter]
+    public Bet Bet { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<Bet> BetChanged { get; set; }
+}
