@@ -1,4 +1,5 @@
-﻿@using BettingTournament.Core
+﻿@using BettingTournament.Components.Common
+@using BettingTournament.Core
 @using BettingTournament.Core.Services
 @inject RoundService RoundService
 @inject IDialogService DialogService
@@ -6,17 +7,18 @@
 <MudContainer>
     <MudDataGrid Items="@_games">
         <Columns>
-            <PropertyColumn Property="x => x.HomeTeam"></PropertyColumn>
-            <PropertyColumn Property="x => x.AwayTeam"></PropertyColumn>
+            <PropertyColumn Property="x => x.HomeTeam" />
+            <PropertyColumn Property="x => x.AwayTeam" />
+            <PropertyColumn Property="x => x.DateTime" Format="dd.MM.yyyy HH:mm:ss" />
             <TemplateColumn>
                 <CellTemplate>
-                    <MudButton @onclick="() => UpdateClicked(context.Item)">Update</MudButton>
-                    <MudButton @onclick="() => RemoveClicked(context.Item)">Remove</MudButton>
+                    <Button @onclick="() => UpdateClicked(context.Item)">Update</Button>
+                    <Button @onclick="() => RemoveClicked(context.Item)">Remove</Button>
                 </CellTemplate>
             </TemplateColumn>
         </Columns>
     </MudDataGrid>
-    <MudButton @onclick="AddGameClicked">Add Game</MudButton>
+    <Button OnClick="AddGameClicked">Add Game</Button>
 </MudContainer>
 
 @code{

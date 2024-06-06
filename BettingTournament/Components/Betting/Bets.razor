@@ -1,7 +1,9 @@
-﻿@using BettingTournament.Core
+﻿@using BettingTournament.Components.Common
+@using BettingTournament.Core
 @using BettingTournament.Core.Services
 @using BettingTournament.Data
 @using BettingTournament.ViewModels
+@implements IDisposable
 @inject RoundService RoundService
 @inject IDialogService DialogService
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -14,9 +16,10 @@
             <PropertyColumn Property="x => x.Game.AwayTeam" />
             <PropertyColumn Property="x => x.HomeScore" />
             <PropertyColumn Property="x => x.AwayScore" />
+            <PropertyColumn Property="x => x.Game.RemainingTime" />
             <TemplateColumn>
                 <CellTemplate>
-                    <MudButton @onclick="() => BetClicked(context.Item)">Bet</MudButton>
+                    <Button OnClick="() => BetClicked(context.Item)">Bet</Button>
                 </CellTemplate>
             </TemplateColumn>
         </Columns>
@@ -26,6 +29,7 @@
 @code {
     private IEnumerable<Bet> _bets = [];
     private ApplicationUser _user = default!;
+    private System.Timers.Timer _timer = new System.Timers.Timer(1000);
 
     protected override async void OnInitialized()
     {
@@ -35,6 +39,9 @@
         _user = await UserService.GetUserAsync(authState.User);
 
         Refresh();
+
+        _timer.Elapsed += async (sender, e) => await RefreshData();
+        _timer.Enabled = true;
     }
 
     private async Task BetClicked(Bet bet)
@@ -48,8 +55,22 @@
         Refresh();
     }
 
+    // TODO optimize
+    private async Task RefreshData()
+    {
+        await InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+    }
+
     private void Refresh()
     {
         _bets = RoundService.GetBets(_user);
+    }
+
+    public void Dispose()
+    {
+        _timer.Dispose();
     }
 }

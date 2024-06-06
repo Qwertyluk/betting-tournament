@@ -20,12 +20,13 @@ namespace BettingTournament.Core.Services
             _userManager = userManager;
         }
 
-        public void AddGame(string homeTeam, string awayTeam)
+        public void AddGame(string homeTeam, string awayTeam, DateTime dt)
         {
             var game = new Game()
             {
                 HomeTeam = homeTeam,
-                AwayTeam = awayTeam
+                AwayTeam = awayTeam,
+                DateTime = dt,
             };
 
             var users = _userManager.Users.ToList();
@@ -41,7 +42,6 @@ namespace BettingTournament.Core.Services
                         Game = game,
                         ApplicationUserId = user.Id,
                     };
-                    //bet.SetUser(user);
 
                     dbContext.Bets.Add(bet);
                 }
@@ -69,7 +69,7 @@ namespace BettingTournament.Core.Services
             }
         }
 
-        public void UpdateGame(int gameId, string homeTeam, string awayTeam)
+        public void UpdateGame(int gameId, string homeTeam, string awayTeam, DateTime dt)
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
@@ -79,6 +79,7 @@ namespace BettingTournament.Core.Services
                 {
                     game.HomeTeam = homeTeam;
                     game.AwayTeam = awayTeam;
+                    game.DateTime = dt;
 
                     dbContext.SaveChanges();
                 }

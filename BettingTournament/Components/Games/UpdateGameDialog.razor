@@ -1,4 +1,5 @@
-﻿@using BettingTournament.Core
+﻿@using BettingTournament.Components.Common
+@using BettingTournament.Core
 @using BettingTournament.Core.Services
 @inject RoundService RoundService
 
@@ -7,8 +8,8 @@
         <GameForm @bind-Game="Game"/>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton OnClick="Submit">Update</MudButton>
+        <Button OnClick="Cancel">Cancel</Button>
+        <Button OnClick="Submit">Update</Button>
     </DialogActions>
 </MudDialog>
 @code {
@@ -20,7 +21,7 @@
 
     private void Submit()
     {
-        RoundService.UpdateGame(Game.Id, Game.HomeTeam, Game.AwayTeam);
+        RoundService.UpdateGame(Game.Id, Game.HomeTeam, Game.AwayTeam, Game.DateTime);
 
         MudDialog.Close(DialogResult.Ok(true));
     }

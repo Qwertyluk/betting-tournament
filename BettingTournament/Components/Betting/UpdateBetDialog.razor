@@ -1,4 +1,5 @@
-﻿@using BettingTournament.Core
+﻿@using BettingTournament.Components.Common
+@using BettingTournament.Core
 @using BettingTournament.Core.Services
 @inject RoundService RoundService
 
@@ -7,8 +8,8 @@
         <BetForm @bind-Bet="Bet"/>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton OnClick="Submit">Bet</MudButton>
+        <Button OnClick="Cancel">Cancel</Button>
+        <Button OnClick="Submit">Bet</Button>
     </DialogActions>
 </MudDialog>
 @code {

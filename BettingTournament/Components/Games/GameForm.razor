@@ -1,8 +1,15 @@
 ﻿@using BettingTournament.Core
-<MudContainer Class="d-inline-flex gap-5">
-    <MudTextField @bind-Value="Game.HomeTeam" Label="Home Team" />
-    <MudText Class="align-self-end">:</MudText>
-    <MudTextField @bind-Value="Game.AwayTeam" Label="Away Team" />
+@using BettingTournament.Core.Extensions
+<MudContainer>
+    <MudContainer Class="d-inline-flex gap-5">
+        <MudTextField @bind-Value="Game.HomeTeam" Label="Home Team" />
+        <MudText Class="align-self-end">:</MudText>
+        <MudTextField @bind-Value="Game.AwayTeam" Label="Away Team" />
+    </MudContainer>
+    <MudContainer Class="pa-15">
+        <MudDatePicker Date="@Game.DateTime" FixYear="2024" DateChanged="DateChanged" Label="Game Date" />
+        <MudTimePicker Time="@Game.DateTime.ToTimeSpan()" TimeChanged="TimeChanged" Label="Game Time" />
+    </MudContainer>
 </MudContainer>
 
 @code {
@@ -11,4 +18,26 @@
 
     [Parameter]
     public EventCallback<Game> GameChanged { get; set; }
+
+    private async Task DateChanged(DateTime? dtNull)
+    {
+        if (dtNull.HasValue)
+        {
+            var dt = dtNull.Value;
+            var oldDt = Game.DateTime;
+            Game.DateTime = new DateTime(dt.Year, dt.Month, dt.Day, oldDt.Hour, oldDt.Minute, oldDt.Second);
+            await GameChanged.InvokeAsync(Game);
+        }
+    }
+
+    private async Task TimeChanged(TimeSpan? tsNull)
+    {
+        if (tsNull.HasValue)
+        {
+            var ts = tsNull.Value;
+            var oldDt = Game.DateTime;
+            Game.DateTime = new DateTime(oldDt.Year, oldDt.Month, oldDt.Day, ts.Hours, ts.Minutes, ts.Seconds);
+            await GameChanged.InvokeAsync(Game);
+        }
+    }
 }
