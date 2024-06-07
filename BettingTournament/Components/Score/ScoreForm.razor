@@ -1,0 +1,27 @@
+﻿@using BettingTournament.Core
+@using BettingTournament.ViewModels
+<MudContainer Class="d-inline-flex gap-5">
+    <MudTextField T="int" Value="@Score.HomeScore" ValueChanged="HomeScoreChanged" Label="@Score.HomeTeam" />
+    <MudText Class="align-self-end">:</MudText>
+    <MudTextField T="int" Value="@Score.AwayScore" ValueChanged="AwayScoreChanged" Label="@Score.AwayTeam" />
+</MudContainer>
+
+@code {
+    [Parameter]
+    public ScoreViewModel Score { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<ScoreViewModel> ScoreChanged { get; set; }
+
+    private async Task HomeScoreChanged(int value)
+    {
+        Score.HomeScore = value;
+        await ScoreChanged.InvokeAsync(Score);
+    }
+
+    private async Task AwayScoreChanged(int value)
+    {
+        Score.AwayScore = value;
+        await ScoreChanged.InvokeAsync(Score);
+    }
+}

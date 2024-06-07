@@ -86,6 +86,22 @@ namespace BettingTournament.Core.Services
             }
         }
 
+        public void UpdateGame(int gameId, int homeScore, int awayScore)
+        {
+            using (var dbContext = _dbContextFactory.CreateDbContext())
+            {
+                var game = dbContext.Games.Find(gameId);
+
+                if (game is not null)
+                {
+                    game.HomeScore = homeScore;
+                    game.AwayScore = awayScore;
+
+                    dbContext.SaveChanges();
+                }
+            }
+        }
+
         public void UpdateBet(int betId, int homeScore, int awayScore)
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())

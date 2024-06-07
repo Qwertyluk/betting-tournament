@@ -11,14 +11,14 @@
     </DialogContent>
     <DialogActions>
         <Button OnClick="Cancel">Cancel</Button>
-        <Button OnClick="Submit">Bet</Button>
+        <Button OnClick="Submit">Set Result</Button>
     </DialogActions>
 </MudDialog>
 @code {
     private ScoreViewModel _scoreViewModel = default!;
 
     [Parameter]
-    public Bet Bet { get; set; } = default!;
+    public Game Game { get; set; } = default!;
 
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; } = default!;
@@ -27,16 +27,18 @@
     {
         base.OnParametersSet();
 
-        _scoreViewModel = new()
+        _scoreViewModel = new ScoreViewModel()
         {
-            HomeTeam = Bet.Game.HomeTeam,
-            AwayTeam = Bet.Game.AwayTeam,
+            HomeTeam = Game.HomeTeam,
+            AwayTeam = Game.AwayTeam,
+            HomeScore = Game.HomeScore,
+            AwayScore = Game.AwayScore,
         };
     }
 
     private void Submit()
     {
-        RoundService.UpdateBet(Bet.Id, _scoreViewModel.HomeScore, _scoreViewModel.AwayScore);
+        RoundService.UpdateGame(Game.Id, _scoreViewModel.HomeScore, _scoreViewModel.AwayScore);
 
         MudDialog.Close(DialogResult.Ok(true));
     }

@@ -9,11 +9,14 @@
         <Columns>
             <PropertyColumn Property="x => x.HomeTeam" />
             <PropertyColumn Property="x => x.AwayTeam" />
+            <PropertyColumn Property="x => x.HomeScore" />
+            <PropertyColumn Property="x => x.AwayScore" />
             <PropertyColumn Property="x => x.PolishDateTime" Format="dd.MM.yyyy HH:mm:ss" />
             <TemplateColumn>
                 <CellTemplate>
-                    <Button @onclick="() => UpdateClicked(context.Item)">Update</Button>
-                    <Button @onclick="() => RemoveClicked(context.Item)">Remove</Button>
+                    <Button OnClick="() => SetResultClicked(context.Item)">Set Result</Button>
+                    <Button OnClick="() => UpdateClicked(context.Item)">Update</Button>
+                    <Button OnClick="() => RemoveClicked(context.Item)">Remove</Button>
                 </CellTemplate>
             </TemplateColumn>
         </Columns>
@@ -21,13 +24,25 @@
     <Button OnClick="AddGameClicked">Add Game</Button>
 </MudContainer>
 
-@code{
+@code {
     private IEnumerable<Game> _games = [];
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
+        Refresh();
+    }
+
+    private async Task SetResultClicked(Game game)
+    {
+        var parameters = new DialogParameters<SetResultDialog>()
+        {
+            { x => x.Game , game},
+        };
+
+        var dialog = DialogService.Show<SetResultDialog>("", parameters);
+        await dialog.Result;
         Refresh();
     }
 

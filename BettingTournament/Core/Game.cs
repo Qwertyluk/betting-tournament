@@ -7,8 +7,8 @@ namespace BettingTournament.Core
         public int Id { get; set; }
         public string HomeTeam { get; set; } = string.Empty;
         public string AwayTeam { get; set; } = string.Empty;
-        public int HomeScore { get; private set; }
-        public int AwayScore { get; private set; }
+        public int HomeScore { get; set; }
+        public int AwayScore { get; set; }
         public DateTime DateTimeUTC { get; set; } = DateTime.UtcNow;
 
         public DateTime PolishDateTime 
@@ -18,7 +18,7 @@ namespace BettingTournament.Core
         {
             get
             {
-                var ts = DateTimeUTC - DateTime.UtcNow - TimeSpan.FromMinutes(5);
+                var ts = DateTimeUTC - DateTime.UtcNow;
                 if (ts.TotalSeconds < 0)
                 {
                     return TimeSpan.Zero;
@@ -28,7 +28,7 @@ namespace BettingTournament.Core
             }
         }
 
-        // TODO move formating to UI layer?
+        // TODO move formatting to UI layer?
         public string RemainingTimeAsString
         {
             get
