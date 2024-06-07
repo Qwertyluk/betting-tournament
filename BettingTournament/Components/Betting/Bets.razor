@@ -16,10 +16,10 @@
             <PropertyColumn Property="x => x.Game.AwayTeam" />
             <PropertyColumn Property="x => x.HomeScore" />
             <PropertyColumn Property="x => x.AwayScore" />
-            <PropertyColumn Property="x => x.Game.RemainingTime" />
+            <PropertyColumn Property="x => x.Game.RemainingTimeAsString" />
             <TemplateColumn>
                 <CellTemplate>
-                    <Button OnClick="() => BetClicked(context.Item)">Bet</Button>
+                    <Button Disabled="!context.Item.CanScoreBeUpdated" OnClick="() => BetClicked(context.Item)">Bet</Button>
                 </CellTemplate>
             </TemplateColumn>
         </Columns>
@@ -55,7 +55,7 @@
         Refresh();
     }
 
-    // TODO optimize
+    // TODO optimize (refresh only data grid, not entire component)
     private async Task RefreshData()
     {
         await InvokeAsync(() =>

@@ -1,4 +1,5 @@
-﻿using BettingTournament.Data;
+﻿using BettingTournament.Core.Exceptions;
+using BettingTournament.Data;
 
 namespace BettingTournament.Core
 {
@@ -8,13 +9,12 @@ namespace BettingTournament.Core
         public Game Game { get; set; }
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-        
-        // TODO change to init
-        public int HomeScore { get; set; }
-        public int AwayScore { get; set; }
 
-        // TODO
-        private bool CanBeUpdated => Game.RemainingTime.TotalSeconds > 0;
+        public int HomeScore { get; private set; }
+        public int AwayScore { get; private set; }
+
+        public bool CanScoreBeUpdated
+            => Game.RemainingTime > TimeSpan.Zero;
 
         public void SetUser(ApplicationUser user)
         {
@@ -22,13 +22,15 @@ namespace BettingTournament.Core
             ApplicationUser = user;
         }
 
-        public void Update(int homeScore, int awayScore)
+        public void SetScore(int homeTeamScore, int awayTeamScore)
         {
-            // TODO
-            if (CanBeUpdated)
+            if (!CanScoreBeUpdated)
             {
-                // ...
+                throw new CoreException("The betting time has expired.");
             }
+
+            HomeScore = homeTeamScore;
+            AwayScore = awayTeamScore;
         }
 
 

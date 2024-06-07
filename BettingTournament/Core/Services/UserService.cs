@@ -1,4 +1,5 @@
-﻿using BettingTournament.Data;
+﻿using BettingTournament.Core.Exceptions;
+using BettingTournament.Data;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
@@ -15,7 +16,7 @@ namespace BettingTournament.Core.Services
 
         public async Task<ApplicationUser> GetUserAsync(ClaimsPrincipal principal)
         {
-            return await _userManager.GetUserAsync(principal) ?? throw new CustomException();
+            return await _userManager.GetUserAsync(principal) ?? throw new CoreException("User cannot be found.");
         }
     }
 }

@@ -20,7 +20,7 @@
 
     private void Submit()
     {
-        RoundService.AddGame(Game.HomeTeam, Game.AwayTeam, Game.DateTime);
+        RoundService.AddGame(Game.HomeTeam, Game.AwayTeam, Game.DateTimeUTC);
 
         MudDialog.Close(DialogResult.Ok(true));
     }

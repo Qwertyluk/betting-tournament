@@ -7,8 +7,8 @@
         <MudTextField @bind-Value="Game.AwayTeam" Label="Away Team" />
     </MudContainer>
     <MudContainer Class="pa-15">
-        <MudDatePicker Date="@Game.DateTime" FixYear="2024" DateChanged="DateChanged" Label="Game Date" />
-        <MudTimePicker Time="@Game.DateTime.FromUTCToPolishTimeSpan()" TimeChanged="TimeChanged" Label="Game Time" />
+        <MudDatePicker Date="@Game.DateTimeUTC" FixYear="2024" DateChanged="DateChanged" Label="Game Date" />
+        <MudTimePicker Time="@Game.DateTimeUTC.FromUTCToPolishTimeSpan()" TimeChanged="TimeChanged" Label="Game Time" />
     </MudContainer>
 </MudContainer>
 
@@ -24,8 +24,8 @@
         if (dtNull.HasValue)
         {
             var dt = dtNull.Value;
-            var oldDt = Game.DateTime;
-            Game.DateTime = new DateTime(dt.Year, dt.Month, dt.Day, oldDt.Hour, oldDt.Minute, oldDt.Second);
+            var oldDt = Game.DateTimeUTC;
+            Game.DateTimeUTC = new DateTime(dt.Year, dt.Month, dt.Day, oldDt.Hour, oldDt.Minute, oldDt.Second);
             await GameChanged.InvokeAsync(Game);
         }
     }
@@ -35,8 +35,9 @@
         if (tsNull.HasValue)
         {
             var ts = tsNull.Value;
-            var oldDt = Game.DateTime;
-            Game.DateTime = new DateTime(oldDt.Year, oldDt.Month, oldDt.Day, ts.Hours, ts.Minutes, ts.Seconds);
+            var oldDt = Game.DateTimeUTC;
+            // TODO hardcoded UTC+2 !
+            Game.DateTimeUTC = new DateTime(oldDt.Year, oldDt.Month, oldDt.Day, ts.Hours - 2, ts.Minutes, ts.Seconds);
             await GameChanged.InvokeAsync(Game);
         }
     }

@@ -26,7 +26,7 @@ namespace BettingTournament.Core.Services
             {
                 HomeTeam = homeTeam,
                 AwayTeam = awayTeam,
-                DateTime = dt,
+                DateTimeUTC = dt,
             };
 
             var users = _userManager.Users.ToList();
@@ -79,7 +79,7 @@ namespace BettingTournament.Core.Services
                 {
                     game.HomeTeam = homeTeam;
                     game.AwayTeam = awayTeam;
-                    game.DateTime = dt;
+                    game.DateTimeUTC = dt;
 
                     dbContext.SaveChanges();
                 }
@@ -90,12 +90,11 @@ namespace BettingTournament.Core.Services
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
-                var bet = dbContext.Bets.Find(betId);
+                var bet = dbContext.Bets.Include(x => x.Game).FirstOrDefault(x => x.Id == betId);
 
                 if (bet is not null)
                 {
-                    bet.HomeScore = homeScore;
-                    bet.AwayScore = awayScore;
+                    bet.SetScore(homeScore, awayScore);
 
                     dbContext.SaveChanges();
                 }

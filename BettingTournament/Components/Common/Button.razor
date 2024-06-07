@@ -1,4 +1,7 @@
-﻿<MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="OnClicked">@ChildContent</MudButton>
+﻿<MudButton Color="Color.Primary"
+           Variant="Variant.Filled"
+           @onclick="OnClicked"
+           Disabled="Disabled">@ChildContent</MudButton>
 
 @code {
     [Parameter]
@@ -6,6 +9,9 @@
 
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
 
     private async Task OnClicked(MouseEventArgs args)
     {

@@ -1,11 +1,12 @@
 ﻿@using BettingTournament.Components.Common
 @using BettingTournament.Core
 @using BettingTournament.Core.Services
+@using BettingTournament.ViewModels
 @inject RoundService RoundService
 
 <MudDialog>
     <DialogContent>
-        <BetForm @bind-Bet="Bet"/>
+        <BetForm @bind-Bet="_betViewModel" />
     </DialogContent>
     <DialogActions>
         <Button OnClick="Cancel">Cancel</Button>
@@ -13,6 +14,8 @@
     </DialogActions>
 </MudDialog>
 @code {
+    private BetViewModel _betViewModel = new();
+
     [Parameter]
     public Bet Bet { get; set; } = default!;
 
@@ -21,7 +24,7 @@
 
     private void Submit()
     {
-        RoundService.UpdateBet(Bet.Id, Bet.HomeScore, Bet.AwayScore);
+        RoundService.UpdateBet(Bet.Id, _betViewModel.HomeScore, _betViewModel.AwayScore);
 
         MudDialog.Close(DialogResult.Ok(true));
     }

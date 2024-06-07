@@ -21,7 +21,7 @@
 
     private void Submit()
     {
-        RoundService.UpdateGame(Game.Id, Game.HomeTeam, Game.AwayTeam, Game.DateTime);
+        RoundService.UpdateGame(Game.Id, Game.HomeTeam, Game.AwayTeam, Game.DateTimeUTC);
 
         MudDialog.Close(DialogResult.Ok(true));
     }
