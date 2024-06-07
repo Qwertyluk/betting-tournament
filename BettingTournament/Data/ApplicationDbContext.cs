@@ -9,5 +9,7 @@ namespace BettingTournament.Data
         public DbSet<Game> Games { get; set; }
 
         public DbSet<Bet> Bets { get; set; }
+
+        public DbSet<Bet> ArchivedBets { get; set; }
     }
 }

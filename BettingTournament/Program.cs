@@ -18,6 +18,7 @@ builder.Services.AddMudServices();
 
 builder.Services.AddTransient<RoundService>();
 builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<ScoreService>();
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
