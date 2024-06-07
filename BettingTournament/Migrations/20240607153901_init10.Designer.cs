@@ -3,6 +3,7 @@ using System;
 using BettingTournament.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,14 +11,47 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BettingTournament.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240607153901_init10")]
+    partial class init10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
 
-            modelBuilder.Entity("BettingTournament.Core.Models.ActiveBet", b =>
+            modelBuilder.Entity("BettingTournament.Core.Models.ArchivedBet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("AwayScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("HomeScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("ArchivedBets");
+                });
+
+            modelBuilder.Entity("BettingTournament.Core.Models.Bet", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -42,97 +76,35 @@ namespace BettingTournament.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("ActiveBets");
+                    b.ToTable("Bets");
                 });
 
-            modelBuilder.Entity("BettingTournament.Core.Models.ActiveGame", b =>
+            modelBuilder.Entity("BettingTournament.Core.Models.Game", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AwayScore")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("AwayTeam")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("AwayTeamScore")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("DateTimeUTC")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("HomeScore")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("HomeTeam")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("HomeTeamScore")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
-                    b.ToTable("ActiveGames");
-                });
-
-            modelBuilder.Entity("BettingTournament.Core.Models.ArchivedBet", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("AwayBetScore")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("HomeBetScore")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("GameId");
-
-                    b.ToTable("ArchivedBets");
-                });
-
-            modelBuilder.Entity("BettingTournament.Core.Models.ArchivedGame", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("AwayTeam")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("AwayTeamScore")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("DateTimeUTC")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("HomeTeam")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("HomeTeamScore")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("ScoreAssigned")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ArchivedGames");
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("BettingTournament.Data.ApplicationUser", b =>
@@ -330,7 +302,7 @@ namespace BettingTournament.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BettingTournament.Core.Models.ActiveBet", b =>
+            modelBuilder.Entity("BettingTournament.Core.Models.ArchivedBet", b =>
                 {
                     b.HasOne("BettingTournament.Data.ApplicationUser", "ApplicationUser")
                         .WithMany()
@@ -338,8 +310,8 @@ namespace BettingTournament.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BettingTournament.Core.Models.ActiveGame", "Game")
-                        .WithMany("ActiveBets")
+                    b.HasOne("BettingTournament.Core.Models.Game", "Game")
+                        .WithMany()
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -349,7 +321,7 @@ namespace BettingTournament.Migrations
                     b.Navigation("Game");
                 });
 
-            modelBuilder.Entity("BettingTournament.Core.Models.ArchivedBet", b =>
+            modelBuilder.Entity("BettingTournament.Core.Models.Bet", b =>
                 {
                     b.HasOne("BettingTournament.Data.ApplicationUser", "ApplicationUser")
                         .WithMany()
@@ -357,8 +329,8 @@ namespace BettingTournament.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BettingTournament.Core.Models.ArchivedGame", "Game")
-                        .WithMany("ArchivedBets")
+                    b.HasOne("BettingTournament.Core.Models.Game", "Game")
+                        .WithMany()
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -417,16 +389,6 @@ namespace BettingTournament.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BettingTournament.Core.Models.ActiveGame", b =>
-                {
-                    b.Navigation("ActiveBets");
-                });
-
-            modelBuilder.Entity("BettingTournament.Core.Models.ArchivedGame", b =>
-                {
-                    b.Navigation("ArchivedBets");
                 });
 #pragma warning restore 612, 618
         }

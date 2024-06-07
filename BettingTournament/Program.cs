@@ -16,9 +16,10 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddMudServices();
 
-builder.Services.AddTransient<RoundService>();
+builder.Services.AddTransient<GameService>();
 builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<ScoreService>();
+builder.Services.AddTransient<BetService>();
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();

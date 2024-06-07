@@ -28,16 +28,14 @@
 
         <AuthorizeView>
             <Authorized>
-                @*
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="Account/Manage">
-                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
-                    </NavLink>
-                </div>
-                *@
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="betting">
                         <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> Betting
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="results">
+                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> Hall of Glory
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">

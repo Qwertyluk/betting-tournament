@@ -1,0 +1,45 @@
+﻿@using BettingTournament.Components.Betting
+@using BettingTournament.Components.Common
+@using BettingTournament.Core.Services
+@using BettingTournament.ViewModels
+@inject ScoreService ScoreService
+@inject BetService BetService
+@inject IDialogService DialogService
+<MudContainer>
+    <MudDataGrid Items="@_results">
+        <Columns>
+            <PropertyColumn Property="x => x.Rank" />
+            <PropertyColumn Property="x => x.UserName" />
+            <PropertyColumn Property="x => x.Score" />
+            <TemplateColumn>
+                <CellTemplate>
+                    <Button OnClick="() => HistoryClicked(context.Item)">History</Button>
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+    </MudDataGrid>
+</MudContainer>
+
+@code {
+    private IEnumerable<ResultViewModel> _results = [];
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        _results = ScoreService.GetScores().OrderByDescending(x => x.Score);
+    }
+
+    private async Task HistoryClicked(ResultViewModel model)
+    {
+        var bets = BetService.GetArchivedBets(model.UserId);
+
+        var parameters = new DialogParameters<ArchivedBetsDialog>()
+        {
+            { x => x.Bets, bets},
+        };
+
+        var dialog = DialogService.Show<ArchivedBetsDialog>("", parameters);
+        await dialog.Result;
+    }
+}

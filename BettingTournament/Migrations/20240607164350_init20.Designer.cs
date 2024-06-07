@@ -3,6 +3,7 @@ using System;
 using BettingTournament.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BettingTournament.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240607164350_init20")]
+    partial class init20
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -358,7 +361,7 @@ namespace BettingTournament.Migrations
                         .IsRequired();
 
                     b.HasOne("BettingTournament.Core.Models.ArchivedGame", "Game")
-                        .WithMany("ArchivedBets")
+                        .WithMany()
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -422,11 +425,6 @@ namespace BettingTournament.Migrations
             modelBuilder.Entity("BettingTournament.Core.Models.ActiveGame", b =>
                 {
                     b.Navigation("ActiveBets");
-                });
-
-            modelBuilder.Entity("BettingTournament.Core.Models.ArchivedGame", b =>
-                {
-                    b.Navigation("ArchivedBets");
                 });
 #pragma warning restore 612, 618
         }

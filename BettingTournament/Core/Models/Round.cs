@@ -4,6 +4,6 @@ namespace BettingTournament.Core
 {
     public class Round
     {
-        public IEnumerable<Game> Games { get; set; } = [];
+        public IEnumerable<ActiveGame> Games { get; set; } = [];
     }
 }

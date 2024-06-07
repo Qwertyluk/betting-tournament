@@ -2,7 +2,7 @@
 @using BettingTournament.Core
 @using BettingTournament.Core.Models
 @using BettingTournament.Core.Services
-@inject RoundService RoundService
+@inject GameService RoundService
 
 <MudDialog>
     <DialogContent>
@@ -14,7 +14,7 @@
     </DialogActions>
 </MudDialog>
 @code {
-    private Game Game { get; set; } = new();
+    private ActiveGame Game { get; set; } = new();
 
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; } = default!;

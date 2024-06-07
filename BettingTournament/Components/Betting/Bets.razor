@@ -5,10 +5,10 @@
 @using BettingTournament.Data
 @using BettingTournament.ViewModels
 @implements IDisposable
-@inject RoundService RoundService
 @inject IDialogService DialogService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject UserService UserService
+@inject BetService BetService
 
 <MudContainer>
     <MudDataGrid Items="@_bets">
@@ -28,7 +28,7 @@
 </MudContainer>
 
 @code {
-    private IEnumerable<Bet> _bets = [];
+    private IEnumerable<ActiveBet> _bets = [];
     private ApplicationUser _user = default!;
     private System.Timers.Timer _timer = new System.Timers.Timer(1000);
 
@@ -45,7 +45,7 @@
         _timer.Enabled = true;
     }
 
-    private async Task BetClicked(Bet bet)
+    private async Task BetClicked(ActiveBet bet)
     {
         var parameters = new DialogParameters<UpdateBetDialog>()
         {
@@ -67,7 +67,7 @@
 
     private void Refresh()
     {
-        _bets = RoundService.GetBets(_user);
+        _bets = BetService.GetBets(_user.Id);
     }
 
     public void Dispose()

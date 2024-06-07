@@ -4,7 +4,7 @@
 @using BettingTournament.Core.Models
 @using BettingTournament.Core.Services
 @using BettingTournament.ViewModels
-@inject RoundService RoundService
+@inject GameService RoundService
 
 <MudDialog>
     <DialogContent>
@@ -19,7 +19,7 @@
     private ScoreViewModel _scoreViewModel = default!;
 
     [Parameter]
-    public Game Game { get; set; } = default!;
+    public ActiveGame Game { get; set; } = default!;
 
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; } = default!;
@@ -32,8 +32,8 @@
         {
             HomeTeam = Game.HomeTeam,
             AwayTeam = Game.AwayTeam,
-            HomeScore = Game.HomeScore,
-            AwayScore = Game.AwayScore,
+            HomeScore = Game.HomeTeamScore,
+            AwayScore = Game.AwayTeamScore,
         };
     }
 

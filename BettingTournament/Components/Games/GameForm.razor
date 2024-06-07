@@ -15,10 +15,10 @@
 
 @code {
     [Parameter]
-    public Game Game { get; set; } = default!;
+    public ActiveGame Game { get; set; } = default!;
 
     [Parameter]
-    public EventCallback<Game> GameChanged { get; set; }
+    public EventCallback<ActiveGame> GameChanged { get; set; }
 
     private async Task DateChanged(DateTime? dtNull)
     {

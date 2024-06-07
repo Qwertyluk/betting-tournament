@@ -1,0 +1,27 @@
+﻿@using BettingTournament.Core.Models
+<MudContainer>
+    <MudDataGrid Items="@Bets">
+        <Columns>
+            <PropertyColumn Property="x => x.Game.HomeTeam" />
+            <PropertyColumn Property="x => x.Game.AwayTeam" />
+            <PropertyColumn Property="x => x.HomeBetScore" />
+            <PropertyColumn Property="x => x.AwayBetScore" />
+        </Columns>
+    </MudDataGrid>
+</MudContainer>
+
+@code {
+    [Parameter]
+    public IReadOnlyCollection<ArchivedBet> Bets { get; set; } = [];
+
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        MudDialog.Options.MaxWidth = MaxWidth.ExtraLarge;
+        MudDialog.SetOptions(MudDialog.Options);
+    }
+}
