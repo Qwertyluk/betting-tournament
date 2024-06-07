@@ -1,4 +1,4 @@
-using BettingTournament.Core;
+using BettingTournament.Core.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

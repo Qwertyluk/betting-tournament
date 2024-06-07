@@ -1,7 +1,7 @@
 ﻿using BettingTournament.Core.Exceptions;
 using BettingTournament.Data;
 
-namespace BettingTournament.Core
+namespace BettingTournament.Core.Models
 {
     public class Bet
     {

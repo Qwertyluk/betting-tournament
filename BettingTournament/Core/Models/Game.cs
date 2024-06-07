@@ -1,6 +1,4 @@
-﻿using BettingTournament.Core.Exceptions;
-
-namespace BettingTournament.Core
+﻿namespace BettingTournament.Core.Models
 {
     public class Game
     {
@@ -11,7 +9,7 @@ namespace BettingTournament.Core
         public int AwayScore { get; set; }
         public DateTime DateTimeUTC { get; set; } = DateTime.UtcNow;
 
-        public DateTime PolishDateTime 
+        public DateTime PolishDateTime
             => new DateTime(DateTimeUTC.Year, DateTimeUTC.Month, DateTimeUTC.Day, DateTimeUTC.Hour + 2, DateTimeUTC.Minute, DateTimeUTC.Second);
 
         public TimeSpan RemainingTime

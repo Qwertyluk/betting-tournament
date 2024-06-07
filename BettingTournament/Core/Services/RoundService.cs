@@ -1,4 +1,5 @@
 ﻿using BettingTournament.Components.Betting;
+using BettingTournament.Core.Models;
 using BettingTournament.Data;
 using BettingTournament.ViewModels;
 using Microsoft.AspNetCore.Identity;

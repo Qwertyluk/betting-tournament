@@ -1,4 +1,6 @@
-﻿namespace BettingTournament.Core
+﻿using BettingTournament.Core.Models;
+
+namespace BettingTournament.Core
 {
     public class Round
     {
