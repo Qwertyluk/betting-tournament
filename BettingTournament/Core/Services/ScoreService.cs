@@ -42,11 +42,13 @@ namespace BettingTournament.Core.Services
                     var user = bet.ApplicationUser;
                     var score = 0;
 
+                    // TODO add tests
                     if (homeTeamScore == homeTeamBet && awayTeamScore == awayTeamBet)
                     {
                         // score match
                         score = 5;
                     }
+                    // TODO THIS LOGIC IS WRONG !!!
                     else if (Math.Abs(homeTeamScore - awayTeamScore) == Math.Abs(homeTeamBet - awayTeamBet))
                     {
                         // goal diff match
@@ -60,10 +62,11 @@ namespace BettingTournament.Core.Services
                         score = 1;
                     }
 
-                    user.Score += score;
-                    game.ScoreCalculated = true;
+                    bet.SetScore(score);
                 }
 
+                game.ScoreCalculated = true;
+                
                 dbContext.SaveChanges();
             }
         }

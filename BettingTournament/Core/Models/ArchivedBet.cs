@@ -20,6 +20,7 @@ namespace BettingTournament.Core.Models
                 throw new CoreException("Score cannot be set because game's score has been already calculated");
             }
             Score = score;
+            ApplicationUser.Score += score;
         }
     }
 }
