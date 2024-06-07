@@ -16,8 +16,14 @@
 
         public DateTime DateTimeUTC { get; set; } = DateTime.UtcNow;
 
-        public DateTime PolishDateTime
-            => new DateTime(DateTimeUTC.Year, DateTimeUTC.Month, DateTimeUTC.Day, DateTimeUTC.Hour + 2, DateTimeUTC.Minute, DateTimeUTC.Second);
+        public DateTime DateTimeCEST
+        {
+            get
+            {
+                var cestTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+                return TimeZoneInfo.ConvertTimeFromUtc(DateTimeUTC, cestTimeZone);
+            }
+        }
 
         public TimeSpan RemainingTime
         {

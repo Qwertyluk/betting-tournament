@@ -32,14 +32,14 @@
         {
             HomeTeam = Game.HomeTeam,
             AwayTeam = Game.AwayTeam,
-            HomeScore = Game.HomeTeamScore,
-            AwayScore = Game.AwayTeamScore,
+            HomeTeamScore = Game.HomeTeamScore,
+            AwayTeamScore = Game.AwayTeamScore,
         };
     }
 
     private void Submit()
     {
-        RoundService.UpdateGame(Game.Id, _scoreViewModel.HomeScore, _scoreViewModel.AwayScore);
+        RoundService.UpdateGame(Game.Id, _scoreViewModel.HomeTeamScore, _scoreViewModel.AwayTeamScore);
 
         MudDialog.Close(DialogResult.Ok(true));
     }

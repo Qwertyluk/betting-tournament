@@ -1,9 +1,9 @@
 ﻿@using BettingTournament.Core
 @using BettingTournament.ViewModels
 <MudContainer Class="d-inline-flex gap-5">
-    <MudTextField T="int" Value="@Score.HomeScore" ValueChanged="HomeScoreChanged" Label="@Score.HomeTeam" />
+    <MudTextField T="int" Value="@Score.HomeTeamScore" ValueChanged="HomeScoreChanged" Label="@Score.HomeTeam" />
     <MudText Class="align-self-end">:</MudText>
-    <MudTextField T="int" Value="@Score.AwayScore" ValueChanged="AwayScoreChanged" Label="@Score.AwayTeam" />
+    <MudTextField T="int" Value="@Score.AwayTeamScore" ValueChanged="AwayScoreChanged" Label="@Score.AwayTeam" />
 </MudContainer>
 
 @code {
@@ -15,13 +15,13 @@
 
     private async Task HomeScoreChanged(int value)
     {
-        Score.HomeScore = value;
+        Score.HomeTeamScore = value;
         await ScoreChanged.InvokeAsync(Score);
     }
 
     private async Task AwayScoreChanged(int value)
     {
-        Score.AwayScore = value;
+        Score.AwayTeamScore = value;
         await ScoreChanged.InvokeAsync(Score);
     }
 }

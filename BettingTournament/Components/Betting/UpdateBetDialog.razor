@@ -37,7 +37,7 @@
 
     private void Submit()
     {
-        BetService.UpdateBet(Bet.Id, _scoreViewModel.HomeScore, _scoreViewModel.AwayScore);
+        BetService.UpdateBet(Bet.Id, _scoreViewModel.HomeTeamScore, _scoreViewModel.AwayTeamScore);
 
         MudDialog.Close(DialogResult.Ok(true));
     }

@@ -13,7 +13,7 @@ namespace BettingTournament.Core.Services
             _dbContextFactory = dbContextFactory;
         }
 
-        public IEnumerable<ActiveBet> GetBets(string userId)
+        public IEnumerable<ActiveBet> GetActiveBets(string userId)
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
@@ -36,7 +36,7 @@ namespace BettingTournament.Core.Services
             }
         }
 
-        public void UpdateBet(int betId, int homeScore, int awayScore)
+        public void UpdateBet(int betId, int homeTeamBet, int awayTeamBet)
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
@@ -44,7 +44,7 @@ namespace BettingTournament.Core.Services
 
                 if (bet is not null)
                 {
-                    bet.SetScore(homeScore, awayScore);
+                    bet.UpdateBet(homeTeamBet, awayTeamBet);
 
                     dbContext.SaveChanges();
                 }

@@ -1,0 +1,10 @@
+﻿@using BettingTournament.Core.Models
+<MudDialog>
+    <DialogContent>
+        <BetsInProgress Game="Game" />
+    </DialogContent>
+</MudDialog>
+@code {
+    [Parameter]
+    public ActiveGame Game { get; set; } = default!;
+}

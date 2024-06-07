@@ -83,6 +83,19 @@ namespace BettingTournament.Core.Services
             }
         }
 
+        public IEnumerable<ActiveGame> GetGamesInProgress()
+        {
+            using (var dbContext = _dbContextFactory.CreateDbContext())
+            {
+                var games = dbContext.ActiveGames
+                    .Include(x => x.ActiveBets)
+                    .ThenInclude(x => x.ApplicationUser)
+                    .ToList();
+
+                return games.Where(x => x.DateTimeUTC <= DateTime.UtcNow).ToList();
+            }
+        }
+
         public void UpdateGame(int gameId, string homeTeam, string awayTeam, DateTime dt)
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())

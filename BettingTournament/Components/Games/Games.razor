@@ -4,6 +4,13 @@
 @using BettingTournament.Core.Services
 
 <MudContainer>
-    <ActiveGames />
+    <ActiveGames Changed="ActiveGamesChanged"/>
     <ArchivedGames />
 </MudContainer>
+
+@code{
+    private void ActiveGamesChanged()
+    {
+        StateHasChanged();
+    }
+}

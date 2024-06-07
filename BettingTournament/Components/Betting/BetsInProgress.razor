@@ -1,0 +1,16 @@
+﻿@using BettingTournament.Core.Models
+
+<MudContainer>
+    <MudDataGrid Items="@Game.ActiveBets.OrderBy(x => x.ApplicationUser.UserName)">
+        <Columns>
+            <PropertyColumn Property="x => x.ApplicationUser.UserName" />
+            <PropertyColumn Property="x => x.HomeTeamBet" />
+            <PropertyColumn Property="x => x.AwayTeamBet" />
+        </Columns>
+    </MudDataGrid>
+</MudContainer>
+
+@code {
+    [Parameter]
+    public ActiveGame Game { get; set; } = default!;
+}

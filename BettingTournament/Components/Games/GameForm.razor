@@ -1,5 +1,4 @@
 ﻿@using BettingTournament.Core
-@using BettingTournament.Core.Extensions
 @using BettingTournament.Core.Models
 <MudContainer>
     <MudContainer Class="d-inline-flex gap-5">
@@ -9,16 +8,41 @@
     </MudContainer>
     <MudContainer Class="pa-15">
         <MudDatePicker Date="@Game.DateTimeUTC" FixYear="2024" DateChanged="DateChanged" Label="Game Date" />
-        <MudTimePicker Time="@Game.DateTimeUTC.FromUTCToPolishTimeSpan()" TimeChanged="TimeChanged" Label="Game Time" />
+        <MudTimePicker @bind-Time="TimeSpan" Editable="true" Label="Game Time" />
     </MudContainer>
 </MudContainer>
 
 @code {
+    private TimeSpan? _timeSpan;
+
     [Parameter]
     public ActiveGame Game { get; set; } = default!;
 
     [Parameter]
     public EventCallback<ActiveGame> GameChanged { get; set; }
+
+    private TimeSpan? TimeSpan
+    {
+        get => _timeSpan;
+        set
+        {
+            _timeSpan = value;
+            if (_timeSpan.HasValue)
+            {
+                // TODO BUG !!!
+                Game.DateTimeUTC = Game.DateTimeUTC - _timeSpan.Value + new TimeSpan(2, 0, 0);  // CEST = UTC + 2
+                GameChanged.InvokeAsync(Game);
+            }
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        var dateTime = Game.DateTimeCEST;
+        _timeSpan = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second);
+    }
 
     private async Task DateChanged(DateTime? dtNull)
     {
@@ -27,18 +51,6 @@
             var dt = dtNull.Value;
             var oldDt = Game.DateTimeUTC;
             Game.DateTimeUTC = new DateTime(dt.Year, dt.Month, dt.Day, oldDt.Hour, oldDt.Minute, oldDt.Second);
-            await GameChanged.InvokeAsync(Game);
-        }
-    }
-
-    private async Task TimeChanged(TimeSpan? tsNull)
-    {
-        if (tsNull.HasValue)
-        {
-            var ts = tsNull.Value;
-            var oldDt = Game.DateTimeUTC;
-            // TODO hardcoded UTC+2 !
-            Game.DateTimeUTC = new DateTime(oldDt.Year, oldDt.Month, oldDt.Day, ts.Hours - 2, ts.Minutes, ts.Seconds);
             await GameChanged.InvokeAsync(Game);
         }
     }

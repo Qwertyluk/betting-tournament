@@ -13,9 +13,9 @@ namespace BettingTournament.Core.Models
 
         public ApplicationUser ApplicationUser { get; set; } = default!;
 
-        public int HomeScore { get; private set; }
+        public int HomeTeamBet { get; private set; }
         
-        public int AwayScore { get; private set; }
+        public int AwayTeamBet { get; private set; }
 
         public bool CanScoreBeUpdated
             => Game.RemainingTime > TimeSpan.Zero;
@@ -26,23 +26,23 @@ namespace BettingTournament.Core.Models
             ApplicationUser = user;
         }
 
-        public void SetScore(int homeTeamScore, int awayTeamScore)
+        public void UpdateBet(int homeTeamScore, int awayTeamScore)
         {
             if (!CanScoreBeUpdated)
             {
                 throw new CoreException("The betting time has expired.");
             }
 
-            HomeScore = homeTeamScore;
-            AwayScore = awayTeamScore;
+            HomeTeamBet = homeTeamScore;
+            AwayTeamBet = awayTeamScore;
         }
 
         public ArchivedBet Archive()
             => new()
                 {
                     ApplicationUserId = ApplicationUserId,
-                    HomeTeamBet = HomeScore,
-                    AwayTeamBet = AwayScore,
+                    HomeTeamBet = HomeTeamBet,
+                    AwayTeamBet = AwayTeamBet,
                 };
     }
 }

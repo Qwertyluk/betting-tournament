@@ -1,24 +1,23 @@
-﻿@using BettingTournament.Components.Common
+﻿@using BettingTournament.Components.Betting
+@using BettingTournament.Components.Common
 @using BettingTournament.Core
 @using BettingTournament.Core.Models
 @using BettingTournament.Core.Services
 @inject GameService GameService
-@inject ScoreService ScoreService
+@inject IDialogService DialogService
 
 <MudContainer>
-    <MudDataGrid Items="@_archivedGames">
+    <MudDataGrid Items="@_gamesInProgress">
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Archived Games</MudText>
+            <MudText Typo="Typo.h6">Games In Progress</MudText>
         </ToolBarContent>
         <Columns>
             <PropertyColumn Property="x => x.HomeTeam" />
             <PropertyColumn Property="x => x.AwayTeam" />
-            <PropertyColumn Property="x => x.HomeTeamScore" />
-            <PropertyColumn Property="x => x.AwayTeamScore" />
             <PropertyColumn Property="x => x.DateTimeCEST" Format="dd.MM.yyyy HH:mm:ss" />
             <TemplateColumn>
                 <CellTemplate>
-                    <Button Disabled="context.Item.ScoreCalculated" OnClick="() => CalculateScore(context.Item)">Calculate Score</Button>
+                    <Button OnClick="() => ShowBetsClicked(context.Item)">Show Bets</Button>
                 </CellTemplate>
             </TemplateColumn>
         </Columns>
@@ -26,7 +25,7 @@
 </MudContainer>
 
 @code {
-    private IEnumerable<ArchivedGame> _archivedGames = [];
+    private IEnumerable<ActiveGame> _gamesInProgress = [];
 
     protected override void OnInitialized()
     {
@@ -35,13 +34,18 @@
         Refresh();
     }
 
-    private void CalculateScore(ArchivedGame game)
+    private async Task ShowBetsClicked(ActiveGame game)
     {
-        ScoreService.CalculateScoreFor(game.Id);
+        var parameters = new DialogParameters<BetsInProgressDialog>()
+        {
+            { x => x.Game, game }
+        };
+        var dialog = DialogService.Show<BetsInProgressDialog>("", parameters);
+        await dialog.Result;
     }
 
     private void Refresh()
     {
-        _archivedGames = GameService.GetArchivedGames().OrderByDescending(x => x.DateTimeUTC);
+        _gamesInProgress = GameService.GetGamesInProgress();
     }
 }

@@ -16,7 +16,7 @@
             <PropertyColumn Property="x => x.AwayTeam" />
             <PropertyColumn Property="x => x.HomeTeamScore" />
             <PropertyColumn Property="x => x.AwayTeamScore" />
-            <PropertyColumn Property="x => x.PolishDateTime" Format="dd.MM.yyyy HH:mm:ss" />
+            <PropertyColumn Property="x => x.DateTimeCEST" Format="dd.MM.yyyy HH:mm:ss" />
             <TemplateColumn>
                 <CellTemplate>
                     <Button OnClick="() => SetResultClicked(context.Item)">Set Result</Button>
@@ -32,6 +32,9 @@
 
 @code {
     private IEnumerable<ActiveGame> _bettingGames = [];
+
+    [Parameter]
+    public EventCallback Changed { get; set; }
 
     protected override void OnInitialized()
     {

@@ -15,8 +15,8 @@
         <Columns>
             <PropertyColumn Property="x => x.Game.HomeTeam" />
             <PropertyColumn Property="x => x.Game.AwayTeam" />
-            <PropertyColumn Property="x => x.HomeScore" />
-            <PropertyColumn Property="x => x.AwayScore" />
+            <PropertyColumn Property="x => x.HomeTeamBet" />
+            <PropertyColumn Property="x => x.AwayTeamBet" />
             <PropertyColumn Property="x => x.Game.RemainingTimeAsString" />
             <TemplateColumn>
                 <CellTemplate>
@@ -67,7 +67,7 @@
 
     private void Refresh()
     {
-        _bets = BetService.GetBets(_user.Id);
+        _bets = BetService.GetActiveBets(_user.Id);
     }
 
     public void Dispose()
