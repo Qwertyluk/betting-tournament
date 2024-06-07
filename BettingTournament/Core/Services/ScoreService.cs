@@ -22,22 +22,23 @@ namespace BettingTournament.Core.Services
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
-                var game = dbContext.ActiveGames.Find(gameId) ?? throw new CoreException("Cannot find game while finishing.");
+                var game = dbContext.ArchivedGames
+                    .Include(x => x.ArchivedBets)
+                    .ThenInclude(x => x.ApplicationUser)
+                    .FirstOrDefault(x => x.Id == gameId)
+                    ?? throw new CoreException("Cannot find game while finishing.");
 
-                var bets = dbContext.ActiveBets
-                    .Where(x => x.Game.Id == game.Id)
-                    .Include(x => x.Game)
-                    .Include(x => x.ApplicationUser)
-                    .ToList();
+                if (game.ScoreCalculated)
+                {
+                    throw new CoreException($"Score has been already calculated for the game with id {gameId}");
+                }
 
-                var archivedBets = new List<ArchivedBet>(bets.Count);
-
-                foreach (var bet in bets)
+                foreach (var bet in game.ArchivedBets)
                 {
                     var homeTeamScore = bet.Game.HomeTeamScore;
                     var awayTeamScore = bet.Game.AwayTeamScore;
-                    var homeTeamBet = bet.HomeScore;
-                    var awayTeamBet = bet.AwayScore;
+                    var homeTeamBet = bet.HomeTeamBet;
+                    var awayTeamBet = bet.AwayTeamBet;
                     var user = bet.ApplicationUser;
                     var score = 0;
 
@@ -60,12 +61,8 @@ namespace BettingTournament.Core.Services
                     }
 
                     user.Score += score;
-                    //archivedBets.Add(bet.Archive());
+                    game.ScoreCalculated = true;
                 }
-
-                dbContext.ActiveGames.Remove(game);
-                dbContext.ArchivedBets.AddRange(archivedBets);
-                dbContext.ActiveBets.RemoveRange(bets);
 
                 dbContext.SaveChanges();
             }

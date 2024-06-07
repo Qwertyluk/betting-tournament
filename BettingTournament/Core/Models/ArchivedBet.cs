@@ -1,4 +1,5 @@
-﻿using BettingTournament.Data;
+﻿using BettingTournament.Core.Exceptions;
+using BettingTournament.Data;
 
 namespace BettingTournament.Core.Models
 {
@@ -8,8 +9,17 @@ namespace BettingTournament.Core.Models
         public ArchivedGame Game { get; set; }
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-        public int HomeBetScore { get; set; }
-        public int AwayBetScore { get; set; }
-        public int Score { get; set; }
+        public int HomeTeamBet { get; set; }
+        public int AwayTeamBet { get; set; }
+        public int Score { get; private set; }
+
+        public void SetScore(int score)
+        {
+            if (Game.ScoreCalculated)
+            {
+                throw new CoreException("Score cannot be set because game's score has been already calculated");
+            }
+            Score = score;
+        }
     }
 }

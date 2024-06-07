@@ -12,9 +12,9 @@
 
         public int AwayTeamScore { get; set; }
 
-        public bool ScoreAssigned { get; set; }
+        public bool ScoreCalculated { get; set; }
 
-        public IEnumerable<ArchivedBet> ArchivedBets { get; set; } = [];
+        public List<ArchivedBet> ArchivedBets { get; set; } = [];
 
         public DateTime DateTimeUTC { get; set; } = DateTime.UtcNow;
 

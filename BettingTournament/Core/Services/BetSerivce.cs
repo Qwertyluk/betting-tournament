@@ -31,6 +31,7 @@ namespace BettingTournament.Core.Services
                 return dbContext.ArchivedBets
                     .Where(x => x.ApplicationUser.Id == userId)
                     .OrderByDescending(x => x.Game.DateTimeUTC)
+                    .Include(x => x.Game)
                     .ToList();
             }
         }

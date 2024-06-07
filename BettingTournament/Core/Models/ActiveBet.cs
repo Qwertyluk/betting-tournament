@@ -41,8 +41,8 @@ namespace BettingTournament.Core.Models
             => new()
                 {
                     ApplicationUserId = ApplicationUserId,
-                    HomeBetScore = HomeScore,
-                    AwayBetScore = AwayScore,
+                    HomeTeamBet = HomeScore,
+                    AwayTeamBet = AwayScore,
                 };
     }
 }
