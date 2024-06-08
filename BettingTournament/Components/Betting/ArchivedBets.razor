@@ -1,17 +1,17 @@
 ﻿@using BettingTournament.Core.Models
-<MudContainer>
-    <MudDataGrid Items="@Bets">
-        <Columns>
-            <PropertyColumn Property="x => x.Game.HomeTeam" />
-            <PropertyColumn Property="x => x.Game.HomeTeamScore" />
-            <PropertyColumn Property="x => x.Game.AwayTeam" />
-            <PropertyColumn Property="x => x.Game.AwayTeamScore" />
-            <PropertyColumn Property="x => x.HomeTeamBet" />
-            <PropertyColumn Property="x => x.AwayTeamBet" />
-            <PropertyColumn Property="x => x.Score" />
-        </Columns>
-    </MudDataGrid>
-</MudContainer>
+
+<MudDataGrid Items="@Bets">
+    <Columns>
+        <PropertyColumn Property="x => x.Game.HomeTeam" Title="Druzyna A" />
+        <PropertyColumn Property="x => x.Game.HomeTeamScore" Title="Wynik Druzyna A" />
+        <PropertyColumn Property="x => x.Game.AwayTeam" Title="Druzyna B" />
+        <PropertyColumn Property="x => x.Game.AwayTeamScore" Title="Wynik Druzyna B" />
+        <PropertyColumn Property="x => x.HomeTeamBet" Title="Zaklad Druzyna A" />
+        <PropertyColumn Property="x => x.AwayTeamBet" Title="Zaklad Druzyna B" />
+        <PropertyColumn Property="x => x.Score" Title="Punkty" />
+    </Columns>
+</MudDataGrid>
+
 
 @code {
     [Parameter]

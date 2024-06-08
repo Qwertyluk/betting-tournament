@@ -3,9 +3,9 @@
 <MudContainer>
     <MudDataGrid Items="@Game.ActiveBets.OrderBy(x => x.ApplicationUser.UserName)">
         <Columns>
-            <PropertyColumn Property="x => x.ApplicationUser.UserName" />
-            <PropertyColumn Property="x => x.HomeTeamBet" />
-            <PropertyColumn Property="x => x.AwayTeamBet" />
+            <PropertyColumn Property="x => x.ApplicationUser.UserName" Title="Uzytkownik"/>
+            <PropertyColumn Property="x => x.HomeTeamBet" Title="Zaklad Druzyna A" />
+            <PropertyColumn Property="x => x.AwayTeamBet" Title="Zaklad Druzyna B" />
         </Columns>
     </MudDataGrid>
 </MudContainer>

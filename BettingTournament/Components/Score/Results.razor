@@ -8,12 +8,12 @@
 <MudContainer>
     <MudDataGrid Items="@_results">
         <Columns>
-            <PropertyColumn Property="x => x.Rank" />
-            <PropertyColumn Property="x => x.UserName" />
-            <PropertyColumn Property="x => x.Score" />
+            <PropertyColumn Property="x => x.Rank" Title="Pozycja"/>
+            <PropertyColumn Property="x => x.UserName" Title="Uzytkownik"/>
+            <PropertyColumn Property="x => x.Score" Title="Punkty"/>
             <TemplateColumn>
                 <CellTemplate>
-                    <Button OnClick="() => HistoryClicked(context.Item)">History</Button>
+                    <Button OnClick="() => HistoryClicked(context.Item)">Historia</Button>
                 </CellTemplate>
             </TemplateColumn>
         </Columns>

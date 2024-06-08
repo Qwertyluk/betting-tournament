@@ -7,15 +7,15 @@
 @inject ScoreService ScoreService
 
 <MudContainer>
-    <Button OnClick="AddGameClicked">Add Game</Button>
+    <Button OnClick="AddGameClicked">Dodaj Gre</Button>
     <MudDataGrid Items="@_bettingGames">
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Active Games</MudText>
+            <MudText Typo="Typo.h6">Gry Do Obstawiania</MudText>
         </ToolBarContent>
         <Columns>
-            <PropertyColumn Property="x => x.HomeTeam" />
-            <PropertyColumn Property="x => x.AwayTeam" />
-            <PropertyColumn Property="x => x.DateTimeCEST" Format="dd.MM.yyyy HH:mm:ss" />
+            <PropertyColumn Property="x => x.HomeTeam" Title="Druzyna A" />
+            <PropertyColumn Property="x => x.AwayTeam" Title="Druzyna B" />
+            <PropertyColumn Property="x => x.DateTimeCEST" Title="Data" Format="dd.MM.yyyy HH:mm:ss" />
             <TemplateColumn>
                 <CellTemplate>
                     <Button OnClick="() => UpdateClicked(context.Item)">Update</Button>

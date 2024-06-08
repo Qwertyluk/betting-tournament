@@ -2,3 +2,4 @@
 - use viewmodels in all UI components
 - use mappers
 - create team, score classes
+- language specific version

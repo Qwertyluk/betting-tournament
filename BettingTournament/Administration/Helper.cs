@@ -42,8 +42,7 @@ namespace BettingTournament.Administration
 
             var powerUser = new ApplicationUser
             {
-                UserName = "admin@admin.com",
-                Email = "admin@admin.com"
+                UserName = "Admin",
             };
 
             string userPassword = "Admin@1234";

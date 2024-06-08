@@ -8,13 +8,13 @@
 <MudContainer>
     <MudDataGrid Items="@Games">
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Archived Games</MudText>
+            <MudText Typo="Typo.h6">Zarchiwizowane Gry</MudText>
         </ToolBarContent>
         <Columns>
-            <PropertyColumn Property="x => x.HomeTeam" />
-            <PropertyColumn Property="x => x.AwayTeam" />
-            <PropertyColumn Property="x => x.HomeTeamScore" />
-            <PropertyColumn Property="x => x.AwayTeamScore" />
+            <PropertyColumn Property="x => x.HomeTeam" Title="Druzyna A" />
+            <PropertyColumn Property="x => x.AwayTeam" Title="Druzyna B" />
+            <PropertyColumn Property="x => x.HomeTeamScore" Title="Wynik Druzyna A" />
+            <PropertyColumn Property="x => x.AwayTeamScore" Title="Wynik Druzyna B" />
         </Columns>
     </MudDataGrid>
 </MudContainer>

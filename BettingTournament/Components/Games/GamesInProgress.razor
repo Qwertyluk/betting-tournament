@@ -9,15 +9,15 @@
 <MudContainer>
     <MudDataGrid Items="@_gamesInProgress">
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Games In Progress</MudText>
+            <MudText Typo="Typo.h6">Rozgrywane Gry</MudText>
         </ToolBarContent>
         <Columns>
-            <PropertyColumn Property="x => x.HomeTeam" />
-            <PropertyColumn Property="x => x.AwayTeam" />
-            <PropertyColumn Property="x => x.DateTimeCEST" Format="dd.MM.yyyy HH:mm:ss" />
+            <PropertyColumn Property="x => x.HomeTeam" Title="Druzyna A" />
+            <PropertyColumn Property="x => x.AwayTeam" Title="Druzyna B" />
+            <PropertyColumn Property="x => x.DateTimeCEST" Title="Data" Format="dd.MM.yyyy HH:mm:ss" />
             <TemplateColumn>
                 <CellTemplate>
-                    <Button OnClick="() => ShowBetsClicked(context.Item)">Show Bets</Button>
+                    <Button OnClick="() => ShowBetsClicked(context.Item)">Pokaz Zaklady</Button>
                 </CellTemplate>
             </TemplateColumn>
         </Columns>

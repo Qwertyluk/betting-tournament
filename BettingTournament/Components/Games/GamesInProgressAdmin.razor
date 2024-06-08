@@ -10,18 +10,20 @@
 <MudContainer>
     <MudDataGrid Items="@_gamesInProgress">
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Games In Progress</MudText>
+            <MudText Typo="Typo.h6">Rozgrywane Gry</MudText>
         </ToolBarContent>
         <Columns>
-            <PropertyColumn Property="x => x.HomeTeam" />
-            <PropertyColumn Property="x => x.AwayTeam" />
-            <PropertyColumn Property="x => x.HomeTeamScore" />
-            <PropertyColumn Property="x => x.AwayTeamScore" />
+            <PropertyColumn Property="x => x.HomeTeam" Title="Druzyna A" />
+            <PropertyColumn Property="x => x.AwayTeam" Title="Druzyna B" />
+            <PropertyColumn Property="x => x.HomeTeamScore" Title="Wynik Druzyna A" />
+            <PropertyColumn Property="x => x.AwayTeamScore" Title="Wynik Druzyna B"/>
             <TemplateColumn>
                 <CellTemplate>
-                    <Button OnClick="() => SetResultClicked(context.Item)">Set Result</Button>
-                    <Button Disabled="!context.Item.CanBeArchived" OnClick="() => ArchivedClicked(context.Item)">Archive</Button>
-                    <Button Color="Color.Error" OnClick="() => RemoveClicked(context.Item)">Remove</Button>
+                    <MudContainer Class="d-flex flex-column gap-1">
+                        <Button OnClick="() => SetResultClicked(context.Item)">Ustaw Wynik</Button>
+                        <Button Disabled="!context.Item.CanBeArchived" OnClick="() => ArchivedClicked(context.Item)">Zarchiwizuj</Button>
+                        <Button Color="Color.Error" OnClick="() => RemoveClicked(context.Item)">Usun</Button>
+                    </MudContainer>
                 </CellTemplate>
             </TemplateColumn>
         </Columns>
@@ -55,10 +57,16 @@
 
     private async Task ArchivedClicked(ActiveGame game)
     {
-        var archivedGame = GameService.ArchiveGame(game.Id);
-        ScoreService.CalculateScoreFor(archivedGame.Id);
-        Refresh();
-        await ArchivedGamesChanged.InvokeAsync();
+        var dialog = DialogService.Show<ConfirmDialog>();
+        var result = await dialog.Result;
+
+        if (result.Data is bool val && val)
+        {
+            var archivedGame = GameService.ArchiveGame(game.Id);
+            ScoreService.CalculateScoreFor(archivedGame.Id);
+            Refresh();
+            await ArchivedGamesChanged.InvokeAsync();
+        }
     }
 
     private async Task RemoveClicked(ActiveGame game)
