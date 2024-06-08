@@ -15,13 +15,11 @@
         <Columns>
             <PropertyColumn Property="x => x.HomeTeam" />
             <PropertyColumn Property="x => x.AwayTeam" />
-            <PropertyColumn Property="x => x.HomeTeamScore" />
-            <PropertyColumn Property="x => x.AwayTeamScore" />
             <PropertyColumn Property="x => x.DateTimeCEST" Format="dd.MM.yyyy HH:mm:ss" />
             <TemplateColumn>
                 <CellTemplate>
                     <Button OnClick="() => UpdateClicked(context.Item)">Update</Button>
-                    <Button OnClick="() => RemoveClicked(context.Item)">Remove</Button>
+                    <Button Color="Color.Error" OnClick="() => RemoveClicked(context.Item)">Remove</Button>
                 </CellTemplate>
             </TemplateColumn>
         </Columns>
@@ -50,10 +48,16 @@
         Refresh();
     }
 
-    private void RemoveClicked(ActiveGame game)
+    private async Task RemoveClicked(ActiveGame game)
     {
-        GameService.Remove(game.Id);
-        Refresh();
+        var dialog = DialogService.Show<ConfirmDialog>();
+        var result = await dialog.Result;
+
+        if (result.Data is bool val && val)
+        {
+            GameService.Remove(game.Id);
+            Refresh();
+        }
     }
 
     private async Task AddGameClicked()

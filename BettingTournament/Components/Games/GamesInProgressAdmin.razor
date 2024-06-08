@@ -21,6 +21,7 @@
                 <CellTemplate>
                     <Button OnClick="() => SetResultClicked(context.Item)">Set Result</Button>
                     <Button Disabled="!context.Item.CanBeArchived" OnClick="() => ArchivedClicked(context.Item)">Archive</Button>
+                    <Button Color="Color.Error" OnClick="() => RemoveClicked(context.Item)">Remove</Button>
                 </CellTemplate>
             </TemplateColumn>
         </Columns>
@@ -58,6 +59,18 @@
         ScoreService.CalculateScoreFor(archivedGame.Id);
         Refresh();
         await ArchivedGamesChanged.InvokeAsync();
+    }
+
+    private async Task RemoveClicked(ActiveGame game)
+    {
+        var dialog = DialogService.Show<ConfirmDialog>();
+        var result = await dialog.Result;
+
+        if (result.Data is bool val && val)
+        {
+            GameService.Remove(game.Id);
+            Refresh();
+        }
     }
 
     private void Refresh()

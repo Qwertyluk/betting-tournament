@@ -4,7 +4,7 @@
 @using BettingTournament.Core.Services
 @inject GameService GameService
 
-<MudContainer>
+<MudContainer Class="d-flex flex-column gap-10">
     <ActiveGames />
     <GamesInProgressAdmin ArchivedGamesChanged="ArchivedGamesChanged"/>
     <ArchivedGames Games="_archivedGames"/>
