@@ -1,6 +1,7 @@
 using BettingTournament.Administration;
 using BettingTournament.Components;
 using BettingTournament.Components.Account;
+using BettingTournament.Core.DomainServices;
 using BettingTournament.Core.Services;
 using BettingTournament.Data;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -20,6 +21,7 @@ builder.Services.AddTransient<GameService>();
 builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<ScoreService>();
 builder.Services.AddTransient<BetService>();
+builder.Services.AddTransient<ScoreCalculator>();
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();

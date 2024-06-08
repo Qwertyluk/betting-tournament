@@ -1,3 +1,4 @@
 ﻿- use client timezone to display time related data (now, cest time zone is hardcoded)
 - use viewmodels in all UI components
 - use mappers
+- create team, score classes

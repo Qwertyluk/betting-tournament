@@ -29,8 +29,10 @@
             _timeSpan = value;
             if (_timeSpan.HasValue)
             {
-                // TODO BUG !!!
-                Game.DateTimeUTC = Game.DateTimeUTC - _timeSpan.Value + new TimeSpan(2, 0, 0);  // CEST = UTC + 2
+                var ts = _timeSpan.Value;
+                var oldGame = Game.DateTimeUTC;
+                Game.DateTimeUTC = new DateTime(oldGame.Year, oldGame.Month, oldGame.Day, ts.Hours, ts.Minutes, ts.Seconds);
+                Game.DateTimeUTC = Game.DateTimeUTC - new TimeSpan(2, 0, 0);    // CEST = UTC + 2
                 GameChanged.InvokeAsync(Game);
             }
         }

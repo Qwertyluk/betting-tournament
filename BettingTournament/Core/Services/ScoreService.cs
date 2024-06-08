@@ -1,4 +1,5 @@
-﻿using BettingTournament.Core.Exceptions;
+﻿using BettingTournament.Core.DomainServices;
+using BettingTournament.Core.Exceptions;
 using BettingTournament.Core.Models;
 using BettingTournament.Data;
 using BettingTournament.ViewModels;
@@ -11,11 +12,16 @@ namespace BettingTournament.Core.Services
     {
         private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ScoreCalculator _scoreCalculator;
 
-        public ScoreService(IDbContextFactory<ApplicationDbContext> dbContextFactory, UserManager<ApplicationUser> userManager)
+        public ScoreService(
+            IDbContextFactory<ApplicationDbContext> dbContextFactory, 
+            UserManager<ApplicationUser> userManager,
+            ScoreCalculator scoreCalculator)
         {
             _dbContextFactory = dbContextFactory;
             _userManager = userManager;
+            _scoreCalculator = scoreCalculator;
         }
 
         public void CalculateScoreFor(int gameId)
@@ -40,28 +46,7 @@ namespace BettingTournament.Core.Services
                     var homeTeamBet = bet.HomeTeamBet;
                     var awayTeamBet = bet.AwayTeamBet;
                     var user = bet.ApplicationUser;
-                    var score = 0;
-
-                    // TODO add tests
-                    if (homeTeamScore == homeTeamBet && awayTeamScore == awayTeamBet)
-                    {
-                        // score match
-                        score = 5;
-                    }
-                    // TODO THIS LOGIC IS WRONG !!!
-                    else if (Math.Abs(homeTeamScore - awayTeamScore) == Math.Abs(homeTeamBet - awayTeamBet))
-                    {
-                        // goal diff match
-                        score = 3;
-                    }
-                    else if ((homeTeamScore > awayTeamScore) && (homeTeamBet > awayTeamBet) ||
-                        (homeTeamScore == awayTeamScore) && (homeTeamBet == awayTeamBet) ||
-                        (homeTeamScore < awayTeamScore) && (homeTeamBet < awayTeamBet))
-                    {
-                        // winner/drawer match
-                        score = 1;
-                    }
-
+                    var score = _scoreCalculator.CalculateScore(homeTeamScore, awayTeamScore, homeTeamBet, awayTeamBet);
                     bet.SetScore(score);
                 }
 

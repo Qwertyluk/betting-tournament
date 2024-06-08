@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.34902.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BettingTournament", "BettingTournament\BettingTournament.csproj", "{3E7BD9C6-C9F8-43DC-970C-3C1C00F2D380}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BettingTournament.Tests", "BettingTournament.Tests\BettingTournament.Tests.csproj", "{B089B6F4-B150-4C59-999C-5907EDB3FD62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3E7BD9C6-C9F8-43DC-970C-3C1C00F2D380}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E7BD9C6-C9F8-43DC-970C-3C1C00F2D380}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E7BD9C6-C9F8-43DC-970C-3C1C00F2D380}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B089B6F4-B150-4C59-999C-5907EDB3FD62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B089B6F4-B150-4C59-999C-5907EDB3FD62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B089B6F4-B150-4C59-999C-5907EDB3FD62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B089B6F4-B150-4C59-999C-5907EDB3FD62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
