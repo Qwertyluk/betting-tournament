@@ -1,0 +1,67 @@
+﻿@using BettingTournament.Components.Betting
+@using BettingTournament.Components.Common
+@using BettingTournament.Core
+@using BettingTournament.Core.Models
+@using BettingTournament.Core.Services
+@inject GameService GameService
+@inject IDialogService DialogService
+@inject ScoreService ScoreService
+
+<MudContainer>
+    <MudDataGrid Items="@_gamesInProgress">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Games In Progress</MudText>
+        </ToolBarContent>
+        <Columns>
+            <PropertyColumn Property="x => x.HomeTeam" />
+            <PropertyColumn Property="x => x.AwayTeam" />
+            <PropertyColumn Property="x => x.HomeTeamScore" />
+            <PropertyColumn Property="x => x.AwayTeamScore" />
+            <TemplateColumn>
+                <CellTemplate>
+                    <Button OnClick="() => SetResultClicked(context.Item)">Set Result</Button>
+                    <Button Disabled="!context.Item.CanBeArchived" OnClick="() => ArchivedClicked(context.Item)">Archive</Button>
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+    </MudDataGrid>
+</MudContainer>
+
+@code {
+    private IEnumerable<ActiveGame> _gamesInProgress = [];
+
+    [Parameter]
+    public EventCallback ArchivedGamesChanged { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Refresh();
+    }
+
+    private async Task SetResultClicked(ActiveGame game)
+    {
+        var parameters = new DialogParameters<SetResultDialog>()
+        {
+            { x => x.Game , game},
+        };
+
+        var dialog = DialogService.Show<SetResultDialog>("", parameters);
+        await dialog.Result;
+        Refresh();
+    }
+
+    private async Task ArchivedClicked(ActiveGame game)
+    {
+        var archivedGame = GameService.ArchiveGame(game.Id);
+        ScoreService.CalculateScoreFor(archivedGame.Id);
+        Refresh();
+        await ArchivedGamesChanged.InvokeAsync();
+    }
+
+    private void Refresh()
+    {
+        _gamesInProgress = GameService.GetGamesInProgress();
+    }
+}

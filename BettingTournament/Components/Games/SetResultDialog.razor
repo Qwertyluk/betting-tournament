@@ -32,8 +32,8 @@
         {
             HomeTeam = Game.HomeTeam,
             AwayTeam = Game.AwayTeam,
-            HomeTeamScore = Game.HomeTeamScore,
-            AwayTeamScore = Game.AwayTeamScore,
+            HomeTeamScore = Game.HomeTeamScore.HasValue ? Game.HomeTeamScore.Value : 0,
+            AwayTeamScore = Game.AwayTeamScore.HasValue ? Game.AwayTeamScore.Value : 0,
         };
     }
 

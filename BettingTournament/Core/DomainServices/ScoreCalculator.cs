@@ -6,7 +6,6 @@ namespace BettingTournament.Core.DomainServices
     {
         public int CalculateScore(int homeTeamScore, int awayTeamScore, int homeTeamBet, int awayTeamBet)
         {
-            // TODO add tests
             if (homeTeamScore == homeTeamBet && awayTeamScore == awayTeamBet)
             {
                 // score match

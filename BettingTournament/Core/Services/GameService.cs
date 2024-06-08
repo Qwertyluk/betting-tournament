@@ -51,7 +51,7 @@ namespace BettingTournament.Core.Services
             }
         }
 
-        public void ArchiveGame(int gameId)
+        public ArchivedGame ArchiveGame(int gameId)
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
@@ -61,17 +61,21 @@ namespace BettingTournament.Core.Services
 
                 var archivedGame = game.Archive();
 
-                dbContext.ArchivedGames.Add(archivedGame);
+                var entity = dbContext.ArchivedGames.Add(archivedGame);
                 dbContext.ActiveGames.Remove(game);
                 dbContext.SaveChanges();
+
+                return entity.Entity;
             }
         }
 
-        public IEnumerable<ActiveGame> GetBettingGames()
+        public IEnumerable<ActiveGame> GetActiveGames()
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
-                return dbContext.ActiveGames.ToList();
+                var games = dbContext.ActiveGames.ToList();
+
+                return games.Where(x => x.DateTimeUTC > DateTime.UtcNow).ToList();
             }
         }
 

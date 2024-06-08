@@ -6,7 +6,7 @@
 @inject ScoreService ScoreService
 
 <MudContainer>
-    <MudDataGrid Items="@_archivedGames">
+    <MudDataGrid Items="@Games">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Archived Games</MudText>
         </ToolBarContent>
@@ -15,33 +15,11 @@
             <PropertyColumn Property="x => x.AwayTeam" />
             <PropertyColumn Property="x => x.HomeTeamScore" />
             <PropertyColumn Property="x => x.AwayTeamScore" />
-            <PropertyColumn Property="x => x.DateTimeCEST" Format="dd.MM.yyyy HH:mm:ss" />
-            <TemplateColumn>
-                <CellTemplate>
-                    <Button Disabled="context.Item.ScoreCalculated" OnClick="() => CalculateScore(context.Item)">Calculate Score</Button>
-                </CellTemplate>
-            </TemplateColumn>
         </Columns>
     </MudDataGrid>
 </MudContainer>
 
 @code {
-    private IEnumerable<ArchivedGame> _archivedGames = [];
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        Refresh();
-    }
-
-    private void CalculateScore(ArchivedGame game)
-    {
-        ScoreService.CalculateScoreFor(game.Id);
-    }
-
-    private void Refresh()
-    {
-        _archivedGames = GameService.GetArchivedGames().OrderByDescending(x => x.DateTimeUTC);
-    }
+    [Parameter]
+    public ICollection<ArchivedGame> Games { get; set; } = [];
 }

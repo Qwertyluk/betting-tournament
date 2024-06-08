@@ -1,4 +1,6 @@
-﻿namespace BettingTournament.Core.Models
+﻿using BettingTournament.Core.Exceptions;
+
+namespace BettingTournament.Core.Models
 {
     public class ActiveGame
     {
@@ -8,13 +10,16 @@
 
         public string AwayTeam { get; set; } = string.Empty;
 
-        public int HomeTeamScore { get; set; }
+        public int? HomeTeamScore { get; set; }
 
-        public int AwayTeamScore { get; set; }
+        public int? AwayTeamScore { get; set; }
 
         public List<ActiveBet> ActiveBets { get; set; } = [];
 
         public DateTime DateTimeUTC { get; set; } = DateTime.UtcNow;
+
+        public bool CanBeArchived 
+            => HomeTeamScore.HasValue && AwayTeamScore.HasValue;
 
         public DateTime DateTimeCEST
         {
@@ -51,13 +56,18 @@
 
         public ArchivedGame Archive()
         {
+            if (!HomeTeamScore.HasValue || !AwayTeamScore.HasValue)
+            {
+                throw new CoreException("Cannot archive game without score");
+            }
+
             var archivedGame = new ArchivedGame()
             {
                 HomeTeam = HomeTeam,
                 AwayTeam = AwayTeam,
                 DateTimeUTC = DateTimeUTC,
-                HomeTeamScore = HomeTeamScore,
-                AwayTeamScore = AwayTeamScore,
+                HomeTeamScore = HomeTeamScore.Value,
+                AwayTeamScore = AwayTeamScore.Value,
                 ArchivedBets = ActiveBets.Select(x => x.Archive()).ToList(),
             };
 
