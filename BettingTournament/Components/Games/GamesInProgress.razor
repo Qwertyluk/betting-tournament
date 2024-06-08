@@ -6,23 +6,21 @@
 @inject GameService GameService
 @inject IDialogService DialogService
 
-<MudContainer>
-    <MudDataGrid Items="@_gamesInProgress">
-        <ToolBarContent>
-            <MudText Typo="Typo.h6">Rozgrywane Gry</MudText>
-        </ToolBarContent>
-        <Columns>
-            <PropertyColumn Property="x => x.HomeTeam" Title="Druzyna A" />
-            <PropertyColumn Property="x => x.AwayTeam" Title="Druzyna B" />
-            <PropertyColumn Property="x => x.DateTimeCEST" Title="Data" Format="dd.MM.yyyy HH:mm:ss" />
-            <TemplateColumn>
-                <CellTemplate>
-                    <Button OnClick="() => ShowBetsClicked(context.Item)">Pokaz Zaklady</Button>
-                </CellTemplate>
-            </TemplateColumn>
-        </Columns>
-    </MudDataGrid>
-</MudContainer>
+<MudDataGrid Items="@_gamesInProgress">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Rozgrywane Gry</MudText>
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="x => x.HomeTeam" Title="Druzyna A" />
+        <PropertyColumn Property="x => x.AwayTeam" Title="Druzyna B" />
+        <PropertyColumn Property="x => x.DateTimeCEST" Title="Data" Format="dd.MM.yyyy HH:mm:ss" />
+        <TemplateColumn>
+            <CellTemplate>
+                <Button OnClick="() => ShowBetsClicked(context.Item)">Pokaz Zaklady</Button>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
 
 @code {
     private IEnumerable<ActiveGame> _gamesInProgress = [];

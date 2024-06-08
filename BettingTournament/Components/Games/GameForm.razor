@@ -2,13 +2,13 @@
 @using BettingTournament.Core.Models
 <MudContainer>
     <MudContainer Class="d-inline-flex gap-5">
-        <MudTextField @bind-Value="Game.HomeTeam" Label="Home Team" />
+        <MudTextField @bind-Value="Game.HomeTeam" Label="Druzyna A" />
         <MudText Class="align-self-end">:</MudText>
-        <MudTextField @bind-Value="Game.AwayTeam" Label="Away Team" />
+        <MudTextField @bind-Value="Game.AwayTeam" Label="Druzyna B" />
     </MudContainer>
     <MudContainer Class="pa-15">
-        <MudDatePicker Date="@Game.DateTimeUTC" FixYear="2024" DateChanged="DateChanged" Label="Game Date" />
-        <MudTimePicker @bind-Time="TimeSpan" Editable="true" Label="Game Time" />
+        <MudDatePicker Date="@Game.DateTimeUTC" FixYear="2024" DateChanged="DateChanged" Label="Data" />
+        <MudTimePicker @bind-Time="TimeSpan" Editable="true" Label="Godzina" />
     </MudContainer>
 </MudContainer>
 

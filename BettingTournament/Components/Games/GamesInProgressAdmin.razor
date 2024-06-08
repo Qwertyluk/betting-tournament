@@ -7,28 +7,26 @@
 @inject IDialogService DialogService
 @inject ScoreService ScoreService
 
-<MudContainer>
-    <MudDataGrid Items="@_gamesInProgress">
-        <ToolBarContent>
-            <MudText Typo="Typo.h6">Rozgrywane Gry</MudText>
-        </ToolBarContent>
-        <Columns>
-            <PropertyColumn Property="x => x.HomeTeam" Title="Druzyna A" />
-            <PropertyColumn Property="x => x.AwayTeam" Title="Druzyna B" />
-            <PropertyColumn Property="x => x.HomeTeamScore" Title="Wynik Druzyna A" />
-            <PropertyColumn Property="x => x.AwayTeamScore" Title="Wynik Druzyna B"/>
-            <TemplateColumn>
-                <CellTemplate>
-                    <MudContainer Class="d-flex flex-column gap-1">
-                        <Button OnClick="() => SetResultClicked(context.Item)">Ustaw Wynik</Button>
-                        <Button Disabled="!context.Item.CanBeArchived" OnClick="() => ArchivedClicked(context.Item)">Zarchiwizuj</Button>
-                        <Button Color="Color.Error" OnClick="() => RemoveClicked(context.Item)">Usun</Button>
-                    </MudContainer>
-                </CellTemplate>
-            </TemplateColumn>
-        </Columns>
-    </MudDataGrid>
-</MudContainer>
+<MudDataGrid Items="@_gamesInProgress">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Rozgrywane Gry</MudText>
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="x => x.HomeTeam" Title="Druzyna A" />
+        <PropertyColumn Property="x => x.AwayTeam" Title="Druzyna B" />
+        <PropertyColumn Property="x => x.HomeTeamScore" Title="Wynik Druzyna A" />
+        <PropertyColumn Property="x => x.AwayTeamScore" Title="Wynik Druzyna B" />
+        <TemplateColumn>
+            <CellTemplate>
+                <MudContainer Class="d-flex flex-column gap-1">
+                    <Button OnClick="() => SetResultClicked(context.Item)">Ustaw Wynik</Button>
+                    <Button Disabled="!context.Item.CanBeArchived" OnClick="() => ArchivedClicked(context.Item)">Zarchiwizuj</Button>
+                    <Button Color="Color.Error" OnClick="() => RemoveClicked(context.Item)">Usun</Button>
+                </MudContainer>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
 
 @code {
     private IEnumerable<ActiveGame> _gamesInProgress = [];

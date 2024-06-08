@@ -10,22 +10,23 @@
 @inject UserService UserService
 @inject BetService BetService
 
-<MudContainer>
-    <MudDataGrid Items="@_bets">
-        <Columns>
-            <PropertyColumn Property="x => x.Game.HomeTeam" Title="Druzyna A"/>
-            <PropertyColumn Property="x => x.Game.AwayTeam" Title="Druzyna B"/>
-            <PropertyColumn Property="x => x.HomeTeamBet" Title="Zaklad Druzyna A"/>
-            <PropertyColumn Property="x => x.AwayTeamBet" Title="Zaklad Druzyna B"/>
-            <PropertyColumn Property="x => x.Game.RemainingTimeAsString" Title="Pozostaly czas" />
-            <TemplateColumn>
-                <CellTemplate>
-                    <Button Disabled="!context.Item.CanScoreBeUpdated" OnClick="() => BetClicked(context.Item)">Obstaw</Button>
-                </CellTemplate>
-            </TemplateColumn>
-        </Columns>
-    </MudDataGrid>
-</MudContainer>
+<MudDataGrid Items="@_bets">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Gry Do Obstawiania</MudText>
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="x => x.Game.HomeTeam" Title="Druzyna A" />
+        <PropertyColumn Property="x => x.Game.AwayTeam" Title="Druzyna B" />
+        <PropertyColumn Property="x => x.HomeTeamBet" Title="Zaklad Druzyna A" />
+        <PropertyColumn Property="x => x.AwayTeamBet" Title="Zaklad Druzyna B" />
+        <PropertyColumn Property="x => x.Game.RemainingTimeAsString" Title="Pozostaly czas" />
+        <TemplateColumn>
+            <CellTemplate>
+                <Button Disabled="!context.Item.CanScoreBeUpdated" OnClick="() => BetClicked(context.Item)">Obstaw</Button>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
 
 @code {
     private IEnumerable<ActiveBet> _bets = [];
