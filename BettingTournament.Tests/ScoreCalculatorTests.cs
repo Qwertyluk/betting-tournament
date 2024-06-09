@@ -24,11 +24,20 @@ namespace BettingTournament.Tests
         [InlineData(1, 2, 2, 1, 0)]
         [InlineData(2, 0, 1, 2, 0)]
         [InlineData(0, 2, 2, 1, 0)]
+        [InlineData(0, 0, null, null, 0)]
+        [InlineData(0, 0, 0, null, 0)]
+        [InlineData(0, 0, null, 0, 0)]
+        [InlineData(1, 1, 0, null, 0)]
+        [InlineData(1, 1, null, 2, 0)]
+        [InlineData(3, 2, null, 0, 0)]
+        [InlineData(2, 4, 1, null, 0)]
+        [InlineData(2, 0, null, 2, 0)]
+        [InlineData(0, 2, 2, null, 0)]
         public void ShouldCalculateScore(
             int homeTeamScore,
             int awayTeamScore, 
-            int homeTeamBet,
-            int awayTeamBet,
+            int? homeTeamBet,
+            int? awayTeamBet,
             int expectedScore)
         {
             // Arrange

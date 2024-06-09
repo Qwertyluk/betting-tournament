@@ -13,9 +13,12 @@ namespace BettingTournament.Core.Models
 
         public ApplicationUser ApplicationUser { get; set; } = default!;
 
-        public int HomeTeamBet { get; private set; }
+        public int? HomeTeamBet { get; private set; }
         
-        public int AwayTeamBet { get; private set; }
+        public int? AwayTeamBet { get; private set; }
+
+        public bool BetPlaced 
+            => HomeTeamBet.HasValue && AwayTeamBet.HasValue;
 
         public bool CanScoreBeUpdated
             => Game.RemainingTime > TimeSpan.Zero;

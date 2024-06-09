@@ -5,7 +5,7 @@
 @inject ScoreService ScoreService
 @inject BetService BetService
 @inject IDialogService DialogService
-<MudDataGrid Items="@_results">
+<MudDataGrid Items="@_results" Striped="true">
     <Columns>
         <PropertyColumn Property="x => x.Rank" Title="Pozycja" />
         <PropertyColumn Property="x => x.UserName" Title="Uzytkownik" />

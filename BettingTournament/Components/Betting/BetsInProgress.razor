@@ -1,6 +1,6 @@
 ﻿@using BettingTournament.Core.Models
 
-<MudDataGrid Items="@Game.ActiveBets.OrderBy(x => x.ApplicationUser.UserName)">
+<MudDataGrid Items="@Game.ActiveBets.OrderBy(x => x.ApplicationUser.UserName)" RowStyleFunc="GetRowStyle">
     <Columns>
         <PropertyColumn Property="x => x.ApplicationUser.UserName" Title="Uzytkownik" />
         <PropertyColumn Property="x => x.HomeTeamBet" Title="Zaklad Druzyna A" />
@@ -11,4 +11,14 @@
 @code {
     [Parameter]
     public ActiveGame Game { get; set; } = default!;
+
+    private string GetRowStyle(ActiveBet bet, int index)
+    {
+        if (!bet.BetPlaced)
+        {
+            return "background-color: lightcoral";
+        }
+
+        return "background-color: lightgreen";
+    }
 }

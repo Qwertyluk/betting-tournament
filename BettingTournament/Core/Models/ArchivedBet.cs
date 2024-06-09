@@ -9,8 +9,8 @@ namespace BettingTournament.Core.Models
         public ArchivedGame Game { get; set; }
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-        public int HomeTeamBet { get; set; }
-        public int AwayTeamBet { get; set; }
+        public int? HomeTeamBet { get; set; }
+        public int? AwayTeamBet { get; set; }
         public int Score { get; private set; }
 
         public void SetScore(int score)

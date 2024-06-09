@@ -10,9 +10,9 @@
 @inject UserService UserService
 @inject BetService BetService
 
-<MudDataGrid Items="@_bets">
+<MudDataGrid Items="@_bets" RowStyleFunc="GetRowStyle">
     <ToolBarContent>
-        <MudText Typo="Typo.h6">Gry Do Obstawiania</MudText>
+        <MudText Typo="Typo.h6">Gry Do Obstawienia</MudText>
     </ToolBarContent>
     <Columns>
         <PropertyColumn Property="x => x.Game.HomeTeam" Title="Druzyna A" />
@@ -55,6 +55,16 @@
         var dialog = DialogService.Show<UpdateBetDialog>("", parameters);
         await dialog.Result;
         Refresh();
+    }
+
+    private string GetRowStyle(ActiveBet bet, int index)
+    {
+        if (!bet.BetPlaced)
+        {
+            return "background-color: lightcoral";
+        }
+
+        return "background-color: lightgreen";
     }
 
     // TODO optimize (refresh only data grid, not entire component)
