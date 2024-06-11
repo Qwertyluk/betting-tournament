@@ -1,6 +1,6 @@
 ﻿@using BettingTournament.Core.Models
 
-<MudDataGrid Items="@Bets">
+<MudDataGrid Items="@Bets" RowStyleFunc="GetRowStyle">
     <Columns>
         <PropertyColumn Property="x => x.Game.HomeTeam" Title="Druzyna A" />
         <PropertyColumn Property="x => x.Game.HomeTeamScore" Title="Wynik Druzyna A" />
@@ -26,5 +26,23 @@
 
         MudDialog.Options.MaxWidth = MaxWidth.ExtraLarge;
         MudDialog.SetOptions(MudDialog.Options);
+    }
+
+    private string GetRowStyle(ArchivedBet bet, int index)
+    {
+        if (bet.Score == 5)
+        {
+            return "background-color: lightgreen";
+        }
+        else if (bet.Score == 3)
+        {
+            return "background-color: bisque";
+        }
+        else if (bet.Score == 1)
+        {
+            return "background-color: beige";
+        }
+
+        return "background-color: lightcoral";
     }
 }
