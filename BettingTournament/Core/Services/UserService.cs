@@ -8,15 +8,49 @@ namespace BettingTournament.Core.Services
     public class UserService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserStore<ApplicationUser> _userStore;
+        private readonly GameService _gameService;
 
-        public UserService(UserManager<ApplicationUser> userManager)
+        public UserService(
+            UserManager<ApplicationUser> userManager,
+            IUserStore<ApplicationUser> userStore,
+            GameService gameService)
         {
             _userManager = userManager;
+            _userStore = userStore;
+            _gameService = gameService;
+        }
+
+        public async Task<(ApplicationUser, IdentityResult)> CreateUser(string userName, string password)
+        {
+            var user = CreateUser();
+            await _userStore.SetUserNameAsync(user, userName, CancellationToken.None);
+            var result = await _userManager.CreateAsync(user, password);
+
+            if (result.Succeeded)
+            {
+                _gameService.CreateBetsFor(user.Id);
+            }
+
+            return (user, result);
         }
 
         public async Task<ApplicationUser> GetUserAsync(ClaimsPrincipal principal)
         {
             return await _userManager.GetUserAsync(principal) ?? throw new CoreException("User cannot be found.");
+        }
+
+        private static ApplicationUser CreateUser()
+        {
+            try
+            {
+                return Activator.CreateInstance<ApplicationUser>();
+            }
+            catch
+            {
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
+                    $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor.");
+            }
         }
     }
 }

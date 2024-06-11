@@ -21,7 +21,7 @@
                 <MudContainer Class="d-flex flex-column gap-1">
                     <Button OnClick="() => SetResultClicked(context.Item)">Ustaw Wynik</Button>
                     <Button Disabled="!context.Item.CanBeArchived" OnClick="() => ArchivedClicked(context.Item)">Zarchiwizuj</Button>
-                    @*<Button Color="Color.Error" OnClick="() => RemoveClicked(context.Item)">Usun</Button>*@
+                    <Button Color="Color.Error" OnClick="() => RemoveClicked(context.Item)">Usun</Button>
                 </MudContainer>
             </CellTemplate>
         </TemplateColumn>
@@ -66,7 +66,7 @@
             await ArchivedGamesChanged.InvokeAsync();
         }
     }
-    /*
+    
     private async Task RemoveClicked(ActiveGame game)
     {
         var dialog = DialogService.Show<ConfirmDialog>();
@@ -77,7 +77,7 @@
             GameService.Remove(game.Id);
             Refresh();
         }
-    }*/
+    }
 
     private void Refresh()
     {

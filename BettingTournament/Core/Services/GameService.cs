@@ -2,6 +2,7 @@
 using BettingTournament.Core.Models;
 using BettingTournament.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace BettingTournament.Core.Services
@@ -69,13 +70,28 @@ namespace BettingTournament.Core.Services
             }
         }
 
+        public void CreateBetsFor(string userId)
+        {
+            using (var dbContext = _dbContextFactory.CreateDbContext())
+            {
+                var activeGames = dbContext.GetActiveGames();
+                foreach (var game in activeGames)
+                {
+                    game.ActiveBets.Add(new ActiveBet()
+                    {
+                        ApplicationUserId = userId,
+                    });
+                }
+
+                dbContext.SaveChanges();
+            }
+        }
+
         public IEnumerable<ActiveGame> GetActiveGames()
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
-                var games = dbContext.ActiveGames.ToList();
-
-                return games.Where(x => x.DateTimeUTC > DateTime.UtcNow).ToList();
+                return dbContext.GetActiveGames();
             }
         }
 
@@ -144,6 +160,16 @@ namespace BettingTournament.Core.Services
                     dbContext.SaveChanges();
                 }
             }
+        }
+    }
+
+    internal static class DbContextExtensions
+    {
+        public static IEnumerable<ActiveGame> GetActiveGames(this ApplicationDbContext dbContext)
+        {
+            var games = dbContext.ActiveGames.ToList();
+
+            return games.Where(x => x.DateTimeUTC > DateTime.UtcNow).ToList();
         }
     }
 }
