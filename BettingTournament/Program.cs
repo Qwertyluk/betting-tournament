@@ -22,6 +22,7 @@ builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<ScoreService>();
 builder.Services.AddTransient<BetService>();
 builder.Services.AddTransient<ScoreCalculator>();
+builder.Services.AddSingleton<ChatService>();
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();

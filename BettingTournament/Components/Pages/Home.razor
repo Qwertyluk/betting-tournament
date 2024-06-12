@@ -1,7 +1,12 @@
 ﻿@page "/"
+@using BettingTournament.Components.Chat
 
 <PageTitle>Zakladowi Kozacy</PageTitle>
 
 <h1>Witaj!</h1>
 
-Powodzenia! :)
+<AuthorizeView>
+    <MudContainer Class="pa-0" Style="height:75vh; width:50vw">
+        <Chat />
+    </MudContainer>
+</AuthorizeView>

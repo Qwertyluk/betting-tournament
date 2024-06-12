@@ -1,0 +1,82 @@
+﻿@using BettingTournament.Components.Common
+@using BettingTournament.Core.Models
+@using BettingTournament.Core.Services
+@using BettingTournament.Data
+@inject ChatService ChatService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserService UserService
+@inject IJSRuntime JSRuntime
+@implements IDisposable
+
+<MudContainer Class="d-flex flex-column pa-0" Style="height: 100%; overflow:auto;">
+    <MudText Typo="Typo.h3">Chat:</MudText>
+    <MudContainer id="messages-container" Class="pa-0" Style="overflow-y: scroll; word-wrap:break-word">
+        @foreach (var message in _messages)
+        {
+            <MudContainer Class="pa-0 pt-4">
+                <MudContainer Class="d-flex justify-space-between pa-0">
+                    <MudText><b>@message.ApplicationUser</b></MudText>
+                    <MudText>@message.DateTimeCEST</MudText>
+                </MudContainer>
+                <MudText>@message.Content</MudText>
+            </MudContainer>
+        }
+    </MudContainer>
+    <MudContainer Class="d-flex gap-3">
+        <MudTextField @bind-Value="_message" Label="Wiadomosc" Variant="Variant.Filled" />
+        <Button OnClick="SendClicked">Wyslij</Button>
+    </MudContainer>
+</MudContainer>
+
+@code {
+    private string _message = string.Empty;
+    private IReadOnlyCollection<Message> _messages = [];
+    private ApplicationUser _user = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _user = await UserService.GetUserAsync(authState.User);
+
+        ChatService.OnChange += ChatServiceChanged;
+        _messages = ChatService.GetMessages();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        if (firstRender)
+        {
+            ScrollToBottom();
+        }
+        ScrollToBottom();
+    }
+
+    private void SendClicked()
+    {
+        if (!string.IsNullOrEmpty(_message))
+        {
+            ChatService.AddMessage(_message, DateTime.UtcNow, _user);
+            _message = string.Empty;
+        }
+    }
+
+    private void ChatServiceChanged()
+    {
+        _messages = ChatService.GetMessages();
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void ScrollToBottom()
+    {
+        JSRuntime.InvokeVoidAsync("scrollToBottom", "messages-container");
+    }
+
+    public void Dispose()
+    {
+        ChatService.OnChange -= ChatServiceChanged;
+    }
+}
