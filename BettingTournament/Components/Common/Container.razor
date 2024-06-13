@@ -1,0 +1,12 @@
+﻿<MudContainer Class="@ClassInternal">@ChildContent</MudContainer>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent{ get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    private string ClassInternal
+        => $"{Class} pa-0";
+}

@@ -8,25 +8,34 @@
 @inject IJSRuntime JSRuntime
 @implements IDisposable
 
-<MudContainer Class="d-flex flex-column pa-0" Style="height: 100%; overflow:auto;">
-    <MudText Typo="Typo.h3">Chat:</MudText>
-    <MudContainer id="messages-container" Class="pa-0" Style="overflow-y: scroll; word-wrap:break-word">
+<div class="chat-container">
+    <div class="chat-header">
+        Chat Room
+    </div>
+    <div id="chat-messages" class="chat-messages">
         @foreach (var message in _messages)
         {
-            <MudContainer Class="pa-0 pt-4">
-                <MudContainer Class="d-flex justify-space-between pa-0">
-                    <MudText><b>@message.ApplicationUser</b></MudText>
-                    <MudText>@message.DateTimeCEST</MudText>
-                </MudContainer>
-                <MudText>@message.Content</MudText>
-            </MudContainer>
+            if(message.ApplicationUserId == _user.Id)
+            {
+                <div class="message sent">
+                    <div class="meta">@message.ApplicationUser.UserName, @message.DateTimeCEST</div>
+                    @message.Content
+                </div>
+            }
+            else
+            {
+                <div class="message received">
+                    <div class="meta">@message.ApplicationUser.UserName, @message.DateTimeCEST</div>
+                    @message.Content
+                </div>
+            }
         }
-    </MudContainer>
-    <MudContainer Class="d-flex gap-3">
-        <MudTextField @bind-Value="_message" Label="Wiadomosc" Variant="Variant.Filled" />
-        <Button OnClick="SendClicked">Wyslij</Button>
-    </MudContainer>
-</MudContainer>
+    </div>
+    <div class="chat-input">
+        <input @bind-value="_message" type="text" placeholder="Napisz wiadomość...">
+        <button @onclick="SendClicked">Wyślij</button>
+    </div>
+</div>
 
 @code {
     private string _message = string.Empty;
@@ -48,10 +57,6 @@
     {
         base.OnAfterRender(firstRender);
 
-        if (firstRender)
-        {
-            ScrollToBottom();
-        }
         ScrollToBottom();
     }
 
@@ -72,7 +77,7 @@
 
     private void ScrollToBottom()
     {
-        JSRuntime.InvokeVoidAsync("scrollToBottom", "messages-container");
+        JSRuntime.InvokeVoidAsync("scrollToBottom", "chat-messages");
     }
 
     public void Dispose()
