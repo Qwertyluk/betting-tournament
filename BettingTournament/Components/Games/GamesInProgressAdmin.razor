@@ -14,6 +14,7 @@
     <Columns>
         <PropertyColumn Property="x => x.HomeTeam" Title="Druzyna A" />
         <PropertyColumn Property="x => x.AwayTeam" Title="Druzyna B" />
+        <PropertyColumn Property="x => x.DateTimeCEST" Title="Data" />
         <PropertyColumn Property="x => x.HomeTeamScore" Title="Wynik Druzyna A" />
         <PropertyColumn Property="x => x.AwayTeamScore" Title="Wynik Druzyna B" />
         <TemplateColumn>
@@ -66,7 +67,7 @@
             await ArchivedGamesChanged.InvokeAsync();
         }
     }
-    
+
     private async Task RemoveClicked(ActiveGame game)
     {
         var dialog = DialogService.Show<ConfirmDialog>();

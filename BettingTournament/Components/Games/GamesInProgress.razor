@@ -44,6 +44,8 @@
 
     private void Refresh()
     {
-        _gamesInProgress = GameService.GetGamesInProgress();
+        _gamesInProgress = GameService
+            .GetGamesInProgress()
+            .OrderByDescending(x => x.DateTimeUTC);
     }
 }

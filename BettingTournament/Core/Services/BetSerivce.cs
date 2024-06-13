@@ -18,8 +18,9 @@ namespace BettingTournament.Core.Services
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
                 return dbContext.ActiveBets
-                    .Where(x => x.ApplicationUser.Id == userId)
                     .Include(x => x.Game)
+                    .Where(x => x.ApplicationUser.Id == userId && x.Game.DateTimeUTC >= DateTime.UtcNow)
+                    .OrderBy(x => x.Game.DateTimeUTC)
                     .ToList();
             }
         }
