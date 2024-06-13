@@ -1,3 +1,4 @@
+using BettingTournament.Core.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace BettingTournament.Data
@@ -9,5 +10,7 @@ namespace BettingTournament.Data
         public string FirstName { get; set; } = string.Empty;
 
         public string LastName { get; set; } = string.Empty;
+
+        public ICollection<ArchivedBet> ArchivedBets { get; set; } = [];
     }
 }

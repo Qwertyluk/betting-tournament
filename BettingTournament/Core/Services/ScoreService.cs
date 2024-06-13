@@ -15,7 +15,7 @@ namespace BettingTournament.Core.Services
         private readonly ScoreCalculator _scoreCalculator;
 
         public ScoreService(
-            IDbContextFactory<ApplicationDbContext> dbContextFactory, 
+            IDbContextFactory<ApplicationDbContext> dbContextFactory,
             UserManager<ApplicationUser> userManager,
             ScoreCalculator scoreCalculator)
         {
@@ -51,23 +51,35 @@ namespace BettingTournament.Core.Services
                 }
 
                 game.ScoreCalculated = true;
-                
+
                 dbContext.SaveChanges();
             }
         }
 
         public IEnumerable<ResultViewModel> GetScores()
         {
-            var users = _userManager.Users.OrderByDescending(x => x.Score).ToList();
+            var users = _userManager.Users
+                .Include(x => x.ArchivedBets)
+                .OrderByDescending(x => x.Score)
+                .ToList();
             var rank = 1;
 
-            return users.Select(x => new ResultViewModel()
+            return users.Select(x =>
             {
-                Rank = rank++,
-                UserId = x.Id,
-                UserName = x.UserName ?? string.Empty,
-                PersonalData = $"{x.FirstName} {x.LastName}",
-                Score = x.Score,
+                var wrongBets = x.ArchivedBets.Count(x => x.Score == (int)Score.WrongBet);
+                var winnerBets = x.ArchivedBets.Count(x => x.Score == (int)Score.Winner);
+                var goalDiffBets = x.ArchivedBets.Count(x => x.Score == (int)Score.GoodGoalDiff);
+                var exactResultBets = x.ArchivedBets.Count(x => x.Score == (int)Score.ExactResult);
+
+                return new ResultViewModel()
+                {
+                    Rank = rank++,
+                    UserId = x.Id,
+                    UserName = x.UserName ?? string.Empty,
+                    PersonalData = $"{x.FirstName} {x.LastName}",
+                    Score = x.Score,
+                    Bets = $"{wrongBets} {winnerBets} {goalDiffBets} {exactResultBets}",
+                };
             }).ToList();
         }
     }
