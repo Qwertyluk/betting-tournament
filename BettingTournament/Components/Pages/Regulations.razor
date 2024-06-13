@@ -1,0 +1,70 @@
+﻿@page "/regulations"
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+<MudContainer Style="max-width:75%">
+    <MudText Typo="Typo.h3">Regulamin</MudText>
+    <MudText>
+        <MudText Class="@_headerClass" Typo="@_headerTypo">
+            1. Uczestnictwo
+        </MudText>
+
+        1.1. Uczestnictwo w lidze jest płatne i wynosi 100 zł.<br />
+        1.2. Każdy zawodnik może wykupić więcej niż jedno miejsce w lidze, płacąc 100 zł za każde miejsce.<br />
+        1.3. W lidze uczestniczą wyłącznie osoby obstawiające typy na tej stronie.<br />
+        1.4. W zakładce GRACZE każdy nick gracza jest opisany imieniem i nazwiskiem zawodnika.<br />
+
+        <MudText Class="@_headerClass" Typo="@_headerTypo">
+            2. Rejestracja
+        </MudText>
+        2.1. Rejestracja każdego zawodnika odbywa się indywidualnie do 14.06 do godziny 20:30.<br />
+        2.2. Każdy uczestnik musi zapamiętać swoje dane logowania.<br />
+        <b>2.3. NIE JEST MOŻLIWE ODZYSKANIE HASEŁ DO KONTA.</b><br />
+
+        <MudText Class="@_headerClass" Typo="@_headerTypo">
+            3. Typowanie
+        </MudText>
+        3.1. Uczestnicy typują wyniki wszystkich meczów Euro 2024.<br />
+        3.2. Typowanie musi zostać dokonane przed rozpoczęciem danego meczu.<br />
+        3.3. Nie jest możliwe obstawianie meczu po jego rozpoczęciu. Jeśli mecz planowo zaczyna się o 15:00, to zamknięcie typowania następuje równo o 15:00, nawet mimo ewentualnego opóźnienia w rozpoczęciu meczu.<br />
+
+        <MudText Class="@_headerClass" Typo="@_headerTypo">
+            4. Punktacja
+        </MudText>
+        4.1. Za poprawne wytypowanie wyniku meczu (dokładny wynik) uczestnik otrzymuje 5 punktów.<br />
+        4.2. Za prawidłowe wytypowanie zwycięzcy z zachowaniem prawidłowej różnicy bramek uczestnik otrzymuje 3 punkty. To samo dotyczy remisu (różnica bramek wynosi 0).<br />
+        4.3. Za prawidłowe wytypowanie zwycięzcy bez zachowania różnicy liczby goli uczestnik otrzymuje 2 punkty.<br />
+        4.4. Za niepoprawne wytypowanie wyniku uczestnik nie otrzymuje punktów.<br />
+
+        <MudText Class="@_headerClass" Typo="@_headerTypo">
+            5. Klasyfikacja
+        </MudText>
+        5.1. Klasyfikacja uczestników będzie aktualizowana po każdym meczu.<br />
+        5.2. Klasyfikacja będzie dostępna w zakładce RANKING.<br />
+
+        <MudText Class="@_headerClass" Typo="@_headerTypo">
+            6. Nagrody
+        </MudText>
+        6.1. Na koniec turnieju, uczestnicy z największą liczbą punktów otrzymają nagrody.<br />
+        6.2. Nagrody zostaną określone przed rozpoczęciem turnieju.<br />
+
+        <MudText Class="@_headerClass" Typo="@_headerTypo">
+            7. Dyskwalifikacja
+        </MudText>
+        7.1. Organizator ma prawo do dyskwalifikacji uczestnika w przypadku nieprzestrzegania regulaminu.<br />
+        7.2. Uczestnik może zostać zdyskwalifikowany za oszustwo lub próby manipulacji wynikami.<br />
+
+        <MudText Class="@_headerClass" Typo="@_headerTypo">
+            8. Postanowienia końcowe
+        </MudText>
+        8.1. Organizator zastrzega sobie prawo do wprowadzenia zmian w regulaminie w trakcie trwania ligi.<br />
+        8.2. Wszelkie zmiany w regulaminie będą komunikowane uczestnikom na bieżąco.<br />
+        8.3. Regulamin wchodzi w życie z dniem jego opublikowania.<br />
+    </MudText>
+</MudContainer>
+
+@code {
+    private Typo _headerTypo = Typo.h5;
+    private string _headerClass = "pt-5";
+}
