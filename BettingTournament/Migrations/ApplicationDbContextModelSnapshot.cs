@@ -405,7 +405,7 @@ namespace BettingTournament.Migrations
             modelBuilder.Entity("BettingTournament.Core.Models.ArchivedBet", b =>
                 {
                     b.HasOne("BettingTournament.Data.ApplicationUser", "ApplicationUser")
-                        .WithMany()
+                        .WithMany("ArchivedBets")
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -489,6 +489,11 @@ namespace BettingTournament.Migrations
                 });
 
             modelBuilder.Entity("BettingTournament.Core.Models.ArchivedGame", b =>
+                {
+                    b.Navigation("ArchivedBets");
+                });
+
+            modelBuilder.Entity("BettingTournament.Data.ApplicationUser", b =>
                 {
                     b.Navigation("ArchivedBets");
                 });

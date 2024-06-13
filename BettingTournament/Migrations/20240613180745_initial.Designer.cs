@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BettingTournament.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240608194605_test2")]
-    partial class test2
+    [Migration("20240613180745_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,13 +37,13 @@ namespace BettingTournament.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("AwayTeamBet")
+                    b.Property<int?>("AwayTeamBet")
                         .HasColumnType("int");
 
                     b.Property<int>("GameId")
                         .HasColumnType("int");
 
-                    b.Property<int>("HomeTeamBet")
+                    b.Property<int?>("HomeTeamBet")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -97,13 +97,13 @@ namespace BettingTournament.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("AwayTeamBet")
+                    b.Property<int?>("AwayTeamBet")
                         .HasColumnType("int");
 
                     b.Property<int>("GameId")
                         .HasColumnType("int");
 
-                    b.Property<int>("HomeTeamBet")
+                    b.Property<int?>("HomeTeamBet")
                         .HasColumnType("int");
 
                     b.Property<int>("Score")
@@ -151,6 +151,32 @@ namespace BettingTournament.Migrations
                     b.ToTable("ArchivedGames");
                 });
 
+            modelBuilder.Entity("BettingTournament.Core.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("BettingTournament.Data.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -169,6 +195,14 @@ namespace BettingTournament.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -374,7 +408,7 @@ namespace BettingTournament.Migrations
             modelBuilder.Entity("BettingTournament.Core.Models.ArchivedBet", b =>
                 {
                     b.HasOne("BettingTournament.Data.ApplicationUser", "ApplicationUser")
-                        .WithMany()
+                        .WithMany("ArchivedBets")
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -388,6 +422,17 @@ namespace BettingTournament.Migrations
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("BettingTournament.Core.Models.Message", b =>
+                {
+                    b.HasOne("BettingTournament.Data.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -447,6 +492,11 @@ namespace BettingTournament.Migrations
                 });
 
             modelBuilder.Entity("BettingTournament.Core.Models.ArchivedGame", b =>
+                {
+                    b.Navigation("ArchivedBets");
+                });
+
+            modelBuilder.Entity("BettingTournament.Data.ApplicationUser", b =>
                 {
                     b.Navigation("ArchivedBets");
                 });
