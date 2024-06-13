@@ -66,6 +66,7 @@ namespace BettingTournament.Core.Services
                 Rank = rank++,
                 UserId = x.Id,
                 UserName = x.UserName ?? string.Empty,
+                PersonalData = $"{x.FirstName} {x.LastName}",
                 Score = x.Score,
             }).ToList();
         }

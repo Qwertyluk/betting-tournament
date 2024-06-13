@@ -21,9 +21,9 @@ namespace BettingTournament.Core.Services
             _gameService = gameService;
         }
 
-        public async Task<(ApplicationUser, IdentityResult)> CreateUser(string userName, string password)
+        public async Task<(ApplicationUser, IdentityResult)> CreateUser(string userName, string password, string firstName, string lastName)
         {
-            var user = CreateUser();
+            var user = CreateUser(firstName, lastName);
             await _userStore.SetUserNameAsync(user, userName, CancellationToken.None);
             var result = await _userManager.CreateAsync(user, password);
 
@@ -40,11 +40,15 @@ namespace BettingTournament.Core.Services
             return await _userManager.GetUserAsync(principal) ?? throw new CoreException("User cannot be found.");
         }
 
-        private static ApplicationUser CreateUser()
+        private static ApplicationUser CreateUser(string firstName, string lastName)
         {
             try
             {
-                return Activator.CreateInstance<ApplicationUser>();
+                var user = Activator.CreateInstance<ApplicationUser>();
+                user.FirstName = firstName;
+                user.LastName = lastName;
+
+                return user;
             }
             catch
             {
