@@ -30,15 +30,15 @@
 
     private string GetRowStyle(ArchivedBet bet, int index)
     {
-        if (bet.Score == 5)
+        if (bet.Score == (int)Score.ExactResult)
         {
             return "background-color: lightgreen";
         }
-        else if (bet.Score == 3)
+        else if (bet.Score == (int)Score.GoodGoalDiff)
         {
             return "background-color: bisque";
         }
-        else if (bet.Score == 1)
+        else if (bet.Score == (int)Score.Winner)
         {
             return "background-color: beige";
         }

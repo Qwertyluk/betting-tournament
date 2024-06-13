@@ -1,4 +1,4 @@
-﻿using static System.Formats.Asn1.AsnWriter;
+﻿using BettingTournament.Core.Models;
 
 namespace BettingTournament.Core.DomainServices
 {
@@ -8,28 +8,28 @@ namespace BettingTournament.Core.DomainServices
         {
             if (!homeTeamBet.HasValue || !awayTeamBet.HasValue)
             {
-                return 0;
+                return (int)Score.WrongBet;
             }
 
             if (homeTeamScore == homeTeamBet && awayTeamScore == awayTeamBet)
             {
                 // score match
-                return 5;
+                return (int)Score.ExactResult;
             }
             else if (homeTeamScore - awayTeamScore == homeTeamBet - awayTeamBet)
             {
                 // goal diff match
-                return 3;
+                return (int)Score.GoodGoalDiff;
             }
             else if ((homeTeamScore > awayTeamScore) && (homeTeamBet > awayTeamBet) ||
                 (homeTeamScore == awayTeamScore) && (homeTeamBet == awayTeamBet) ||
                 (homeTeamScore < awayTeamScore) && (homeTeamBet < awayTeamBet))
             {
                 // winner/drawer match
-                return 1;
+                return (int)Score.Winner;
             }
 
-            return 0;
+            return (int)Score.WrongBet;
         }
     }
 }
