@@ -10,25 +10,25 @@ The application was created in less than a week due to the time pressure of laun
 
 ### Key Features
 
-1. User Authentication
+#### User Authentication
 
 - User registration and login
 
-2. Betting System
+#### Betting System
 
 - Display upcoming EURO tournament games
 - Allow users to place bets on upcoming games
 - User can only bet a game that has not started yet
 - Once a game begins, it is possible to see the bets placed by other players
 
-3. Points Calculation:
-- Assign points basen on the accuracy of users' bets
+#### Points Calculation:
+- Assign points based on the accuracy of users' bets
 - Points system based on predefined rules - exact score match earns 5 points, correct goal difference earns 3 points, and predicting the winner earns 2 points
 
-4. Reviewing Betting History
+#### Reviewing Betting History
 - Users can access their and another player's history to see past bets and results
 
-5. Points and Leaderboard
+#### Points and Leaderboard
 - Users view their current points and ranking
 - Leaderboard displays top users based on points earned
 
