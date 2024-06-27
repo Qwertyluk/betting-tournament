@@ -3,9 +3,8 @@ using BettingTournament.Data;
 
 namespace BettingTournament.Core.Models
 {
-    public class ArchivedBet
+    public class ArchivedBet : Entity
     {
-        public int Id { get; set; }
         public ArchivedGame Game { get; set; }
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }

@@ -1,9 +1,11 @@
+using BettingTournament;
 using BettingTournament.Administration;
 using BettingTournament.Components;
 using BettingTournament.Components.Account;
 using BettingTournament.Core.DomainServices;
 using BettingTournament.Core.Services;
 using BettingTournament.Data;
+using BettingTournament.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +24,10 @@ builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<ScoreService>();
 builder.Services.AddTransient<BetService>();
 builder.Services.AddTransient<ScoreCalculator>();
+builder.Services.AddTransient<UpdateManager>();
 builder.Services.AddSingleton<ChatService>();
+builder.Services.Configure<Settings>(builder.Configuration.GetSection("Settings"));
+builder.Services.AddHostedService<TimedHostedService>();
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();

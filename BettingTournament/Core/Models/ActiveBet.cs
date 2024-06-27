@@ -3,10 +3,8 @@ using BettingTournament.Data;
 
 namespace BettingTournament.Core.Models
 {
-    public class ActiveBet
+    public class ActiveBet : Entity
     {
-        public int Id { get; set; }
-        
         public ActiveGame Game { get; set; }
 
         public string ApplicationUserId { get; set; } = string.Empty;
@@ -14,10 +12,10 @@ namespace BettingTournament.Core.Models
         public ApplicationUser ApplicationUser { get; set; } = default!;
 
         public int? HomeTeamBet { get; private set; }
-        
+
         public int? AwayTeamBet { get; private set; }
 
-        public bool BetPlaced 
+        public bool BetPlaced
             => HomeTeamBet.HasValue && AwayTeamBet.HasValue;
 
         public bool CanScoreBeUpdated
@@ -42,10 +40,10 @@ namespace BettingTournament.Core.Models
 
         public ArchivedBet Archive()
             => new()
-                {
-                    ApplicationUserId = ApplicationUserId,
-                    HomeTeamBet = HomeTeamBet,
-                    AwayTeamBet = AwayTeamBet,
-                };
+            {
+                ApplicationUserId = ApplicationUserId,
+                HomeTeamBet = HomeTeamBet,
+                AwayTeamBet = AwayTeamBet,
+            };
     }
 }

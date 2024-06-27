@@ -2,10 +2,8 @@
 
 namespace BettingTournament.Core.Models
 {
-    public class ActiveGame
+    public class ActiveGame : Entity
     {
-        public int Id { get; set; }
-
         public string HomeTeam { get; set; } = string.Empty;
 
         public string AwayTeam { get; set; } = string.Empty;
@@ -18,7 +16,7 @@ namespace BettingTournament.Core.Models
 
         public DateTime DateTimeUTC { get; set; } = DateTime.UtcNow;
 
-        public bool CanBeArchived 
+        public bool CanBeArchived
             => HomeTeamScore.HasValue && AwayTeamScore.HasValue;
 
         public DateTime DateTimeCEST

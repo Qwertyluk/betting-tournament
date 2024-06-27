@@ -2,9 +2,8 @@
 
 namespace BettingTournament.Core.Models
 {
-    public class Message
+    public class Message : Entity
     {
-        public int Id { get; set; }
 
         public string Content { get; set; }
 
@@ -14,7 +13,7 @@ namespace BettingTournament.Core.Models
             => DateTime + TimeSpan.FromHours(2);
 
         public string ApplicationUserId { get; set; }
-        
+
         public ApplicationUser ApplicationUser { get; set; }
     }
 }

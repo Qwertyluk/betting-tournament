@@ -15,4 +15,8 @@
     <PackageReference Include="MudBlazor" Version="6.20.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="FootballApiClient\" />
+  </ItemGroup>
+
 </Project>
