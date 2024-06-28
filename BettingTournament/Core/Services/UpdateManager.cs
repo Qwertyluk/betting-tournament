@@ -1,6 +1,5 @@
 ﻿using BettingTournament.Core.Models;
 using BettingTournament.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace BettingTournament.Core.Services
 {
@@ -12,16 +11,17 @@ namespace BettingTournament.Core.Services
         public UpdateManager(ApplicationDbContext dbContext, IFootballDataProvider gamesProvider)
         {
             _dbContext = dbContext;
+
             _dataProvider = gamesProvider;
         }
 
         public async Task UpdateSystemAsync()
         {
-            var dbLeagues = _dbContext.Leagues.Include(x => x.Rounds).ThenInclude(x => x.Games).ToList();
+            var dbLeagues = _dbContext.Leagues.ToList();
             var leagues = _dataProvider.FetchLeagues();
 
             await AddNewLeaguesAsync(dbLeagues, leagues);
-            await UpdateDataAsync(dbLeagues, leagues);
+            await UpdateExistingLeaguesAsync(dbLeagues, leagues);
         }
 
         private async Task AddNewLeaguesAsync(IList<League> dbLeagues, IList<League> leagues)
@@ -32,21 +32,37 @@ namespace BettingTournament.Core.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        private async Task UpdateDataAsync(IList<League> dbLeagues, IList<League> leagues)
+        private async Task UpdateExistingLeaguesAsync(IList<League> dbLeagues, IList<League> leagues)
         {
             foreach (var dbLeague in dbLeagues)
             {
-                await UpdateLeaguesAsync(dbLeague, leagues.First(x => x.Id == dbLeague.Id));
+                await UpdateLeagueAsync(dbLeague, leagues.First(x => x.Equals(dbLeague)));
             }
         }
 
-        private async Task UpdateLeaguesAsync(League dbLeague, League league)
+        private async Task UpdateLeagueAsync(League dbLeague, League league)
         {
             foreach (var dbRound in dbLeague.Rounds)
             {
                 if (!dbRound.Completed)
                 {
-                    // TODO
+                    var round = league.Rounds.First(x => x.Equals(dbRound));
+                    await UpdateRoundAsync(dbRound, round);
+                }
+            }
+        }
+
+        private async Task UpdateRoundAsync(Round dbRound, Round round)
+        {
+            foreach (var dbGame in dbRound.Games)
+            {
+                if (!dbGame.Completed)
+                {
+                    var game = round.Games.First(x => x.Equals(dbGame));
+                    if (game.Completed)
+                    {
+                        dbGame.CompleteBasedOn(game);
+                    }
                 }
             }
         }

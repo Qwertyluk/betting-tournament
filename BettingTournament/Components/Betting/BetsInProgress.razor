@@ -1,4 +1,4 @@
-﻿@    using BettingTournament.Core.Models
+﻿@using BettingTournament.Core.Models
 
 <MudDataGrid Items="@Game.ActiveBets.OrderBy(x => x.ApplicationUser.UserName)" RowStyleFunc="GetRowStyle">
     <Columns>
